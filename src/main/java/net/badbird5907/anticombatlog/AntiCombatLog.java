@@ -108,10 +108,8 @@ public final class AntiCombatLog extends JavaPlugin {
         }
     }
     public static void tag(Player player){
-        if (inCombatTag == null){
-            System.err.print("null ?!");
-            inCombatTag = new HashMap<>();
-        }
+        if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE)
+            return;
         boolean sendMessage = true;
         if (inCombatTag.containsKey(player.getUniqueId())){
             inCombatTag.remove(player.getUniqueId());
@@ -124,6 +122,10 @@ public final class AntiCombatLog extends JavaPlugin {
     public static void disconnect(Player player){
         if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE)
             return;
+        if (!ConfigValues.isNpcCombatLog()){
+            player.setHealth(0.0d);
+            return;
+        }
         NPCManager.spawn(player,ConfigValues.getCombatLogSeconds());
         sendCombatLoggedMessage(player);
         getInCombatTag().remove(player.getUniqueId());
