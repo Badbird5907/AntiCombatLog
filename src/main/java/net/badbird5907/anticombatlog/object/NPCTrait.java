@@ -2,6 +2,7 @@ package net.badbird5907.anticombatlog.object;
 
 import lombok.Getter;
 import net.citizensnpcs.api.trait.Trait;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -14,11 +15,14 @@ public class NPCTrait extends Trait {
     private final UUID uuid;
     @Getter
     private final List<ItemStack> items;
-    public NPCTrait(String name, float xp, UUID uuid, List<ItemStack> items) {
+    @Getter
+    private final double health;
+    public NPCTrait(String name, float xp, UUID uuid, List<ItemStack> items, double health) {
         super(name);
         this.xp = xp;
         this.uuid = uuid;
         this.items = items;
+        this.health = health;
     }
 
     @Override
@@ -26,6 +30,8 @@ public class NPCTrait extends Trait {
         super.onSpawn();
         getNPC().setProtected(false);
         getNPC().getEntity().setInvulnerable(false);
+        LivingEntity le = (LivingEntity) getNPC().getEntity();
+        le.setHealth(health);
     }
 
     @Override

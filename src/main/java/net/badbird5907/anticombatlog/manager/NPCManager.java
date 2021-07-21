@@ -42,7 +42,7 @@ public class NPCManager {
     public static void spawn(Player player,int i){
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, CC.RED + CC.B + "DISCONNECTED: " + CC.R + CC.RED + player.getName() );
 
-        npc.addTrait(new NPCTrait("anticombatlog", player.getExp(), player.getUniqueId(), Arrays.stream(player.getInventory().getContents()).toList()));
+        npc.addTrait(new NPCTrait("anticombatlog", player.getExp(), player.getUniqueId(), Arrays.stream(player.getInventory().getContents()).toList(), player.getHealth()));
         //npc.getTrait(HologramTrait.class).addLine(CC.YELLOW + CC.B + i + " seconds left");
         npc.addTrait(new HoloTrait(player.getLocation()));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS,player.getInventory().getBoots());
