@@ -1,0 +1,5 @@
+name: AntiCombatLog
+version: ${project.version}
+main: net.badbird5907.anticombatlog.AntiCombatLog
+api-version: 1.17
+depend: [ Citizens ]

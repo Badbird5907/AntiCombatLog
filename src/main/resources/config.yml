@@ -1,0 +1,15 @@
+combat-log-seconds: 20
+npc-combat-log: true # set to true to spawn a npc - false to insta kill
+combat-logged-message-radius: -1 # set to -1 to broadcast to everyone
+combat-tag-seconds: 15
+npc-hit-reset-seconds: 35 #set to -1 to disable
+#Wether to use a scoreboard, actionbar, or both
+#Values: BOARD ACTIONBAR BOTH
+notify-type: BOTH
+messages:
+  combat-tagged: '&cYou have been combat tagged. If you log out right now, you will not be safe. Your combat tag expires in &e%1'
+  un-combat-tagged: '&aYou have been un-combat tagged! You may safely log out now.'
+  logged-out-combat: '&6%1 &ahas logged out while in combat! You can still kill them for &e%2&a seconds.'
+  action-bar-message: '&cYou are in combat for &e%1&c seconds.'
+  log-in-after-kill: '&cYou logged out while in combat and was killed by &e%1'
+  combat-expired: '&aYour combat tag has expired.'
