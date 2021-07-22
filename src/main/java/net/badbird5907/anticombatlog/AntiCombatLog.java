@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
-import net.badbird5907.anticombatlog.commands.ResetCooldownCommand;
+import net.badbird5907.anticombatlog.commands.ResetTagCommand;
 import net.badbird5907.anticombatlog.listener.CombatListener;
 import net.badbird5907.anticombatlog.listener.ConnectionListener;
 import net.badbird5907.anticombatlog.listener.NPCListener;
@@ -25,8 +25,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
 
 public final class AntiCombatLog extends JavaPlugin { //TODO config editor in game
     @Getter
@@ -49,7 +47,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         Metrics metrics = new Metrics(this,12150);
         ConfigValues.enable(this);
         getCommand("anticombatlog").setExecutor(new AntiCombatLogCommand());
-        getCommand("resetcooldown").setExecutor(new ResetCooldownCommand());
+        getCommand("resettag").setExecutor(new ResetTagCommand());
         file = new File(getInstance().getDataFolder().getAbsolutePath() + "/data.json");
         if (!file.exists()){
             file.createNewFile();
@@ -64,7 +62,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         updateRunnable = new UpdateRunnable();
         updateRunnable.runTaskTimer(this, 40L, 20L);
         if (getConfig().getBoolean("update-check")){
-            new UpdateChecker(this,-1).getVersion(version ->{
+            new UpdateChecker(this,94540).getVersion(version ->{
                 if (!this.getDescription().getVersion().equalsIgnoreCase(version)){
                     getLogger().info("There a new update available! Download at https://badbird5907.xyz/anticombatlog");
                 }else{

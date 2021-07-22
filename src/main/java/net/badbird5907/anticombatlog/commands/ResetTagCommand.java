@@ -9,11 +9,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class ResetCooldownCommand implements CommandExecutor {
+public class ResetTagCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length != 1){
-            sender.sendMessage(CC.RED + "Usage: /resetcooldown <player>");
+            sender.sendMessage(CC.RED + "Usage: /resettag <player>");
             return true;
         }
         String target = args[0];

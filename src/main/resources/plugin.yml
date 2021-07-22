@@ -7,6 +7,7 @@ commands:
   anticombatlog:
     description: main command
     aliases: [combat,combatlog]
-  resetcooldown:
-    description: reset cooldown
-    permission: anticombatlog.command.resetcooldown
+  resettag:
+    description: reset combat tag
+    aliases: [resetcombattag]
+    permission: anticombatlog.command.resettag
