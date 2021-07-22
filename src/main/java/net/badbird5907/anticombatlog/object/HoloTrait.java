@@ -62,7 +62,7 @@ public class HoloTrait extends Trait {
     private NPC createHologram(String line, double heightOffset) {
         NPC hologramNPC = this.registry.createNPC(EntityType.ARMOR_STAND, line);
         hologramNPC.addTrait(new ClickRedirectTrait(this.npc));
-        ArmorStandTrait trait = (ArmorStandTrait)hologramNPC.getOrAddTrait(ArmorStandTrait.class);
+        ArmorStandTrait trait = hologramNPC.getOrAddTrait(ArmorStandTrait.class);
         trait.setVisible(false);
         trait.setSmall(true);
         trait.setMarker(true);
@@ -137,7 +137,6 @@ public class HoloTrait extends Trait {
             String line = (String)this.lines.get(i);
             this.hologramNPCs.add(this.createHologram(Placeholders.replace(line, (CommandSender)null, this.npc), this.getHeight(i)));
         }
-
     }
 
     public void removeLine(int idx) {

@@ -10,11 +10,14 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Inventory;
+import net.citizensnpcs.trait.SkinTrait;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.geysermc.floodgate.api.FloodgateApi;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -53,6 +56,12 @@ public class NPCManager {
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND,player.getInventory().getItemInMainHand()); //TODO multi version
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.OFF_HAND,player.getInventory().getItemInOffHand());
         npc.getTrait(Inventory.class).setContents(player.getInventory().getContents());
+        if (Bukkit.getPluginManager().isPluginEnabled("Floodgate")) {
+            if (!FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) ;//to prevent problems with floodgate/geyser players
+                npc.getOrAddTrait(SkinTrait.class).setSkinName(player.getName());
+        }else{
+            npc.getOrAddTrait(SkinTrait.class).setSkinName(player.getName());
+        }
         npcs.put(player.getUniqueId(),new Triplet<>(i,npc,player.getName()));
         npc.spawn(player.getLocation());
     }

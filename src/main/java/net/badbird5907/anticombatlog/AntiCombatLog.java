@@ -66,7 +66,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
                 if (!this.getDescription().getVersion().equalsIgnoreCase(version)){
                     getLogger().info("There a new update available! Download at https://badbird5907.xyz/anticombatlog");
                 }else{
-                    getLogger().info("There is no new update available!");
+                    //just dont say anything
                 }
             });
         }
