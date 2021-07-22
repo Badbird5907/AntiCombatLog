@@ -4,23 +4,27 @@ import lombok.Getter;
 import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.object.NotifyType;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 import static net.badbird5907.anticombatlog.utils.StringUtils.format;
 
 @Getter
 public class ConfigValues {
-    @Getter private static int combatLogSeconds = getConfig().getInt("combat-log-seconds");
-    @Getter private static int combatTagSeconds = getConfig().getInt("combat-tag-seconds");
-    @Getter private static int combatLoggedMessageRadius = getConfig().getInt("combat-logged-message-radius");
-    @Getter private static int npcHitResetSecond = getConfig().getInt("npc-hit-reset-seconds");
-    @Getter private static boolean npcCombatLog = getConfig().getBoolean("npc-combat-log");
-    @Getter private static String combatTaggedMessage = format(getConfig().getString("messages.combat-tagged"));
-    @Getter private static String logInAfterKillMessage = format(getConfig().getString("messages.log-in-after-kill"));
-    @Getter private static String unCombatTaggedMessage = format(getConfig().getString("messages.un-combat-tagged"));
-    @Getter private static String combatLoggedMessage = format(getConfig().getString("messages.logged-out-combat"));
-    @Getter private static String actionBarMessage = format(getConfig().getString("messages.action-bar-message"));
-    @Getter private static String combatExpiredMessage = format(getConfig().getString("messages.combat-expired"));
-    @Getter private static NotifyType notifyType = NotifyType.valueOf(getConfig().getString("notify-type"));
+    @Getter private static int combatLogSeconds = 15;
+    @Getter private static int combatTagSeconds = 15;
+    @Getter private static int combatLoggedMessageRadius = -1;
+    @Getter private static int npcHitResetSecond = 35;
+    @Getter private static boolean npcCombatLog = true;
+    @Getter private static String combatTaggedMessage = null;
+    @Getter private static String logInAfterKillMessage = null;
+    @Getter private static String unCombatTaggedMessage = null;
+    @Getter private static String combatLoggedMessage = null;
+    @Getter private static String actionBarMessage = null;
+    @Getter private static String combatExpiredMessage = null;
+    @Getter private static String killMessage = null;
+    @Getter private static NotifyType notifyType = NotifyType.BOTH;
     private static FileConfiguration getConfig(){
         return AntiCombatLog.getInstance().getConfig();
     }
@@ -95,6 +99,12 @@ public class ConfigValues {
         ConfigValues.combatExpiredMessage = combatExpiredMessage;
     }
 
+    public static void setKillMessage(String killMessage) {
+        getConfig().set("messages.kill-messages",killMessage);
+        saveReload();
+        ConfigValues.killMessage = killMessage;
+    }
+
     private static void saveReload(){
         AntiCombatLog.getInstance().saveConfig();
         AntiCombatLog.getInstance().reloadConfig();
@@ -111,8 +121,17 @@ public class ConfigValues {
         notifyType = NotifyType.valueOf(getConfig().getString("notify-type"));
         actionBarMessage = format(getConfig().getString("messages.action-bar-message"));
         npcHitResetSecond = getConfig().getInt("npc-hit-reset-seconds");
+        killMessage = format(getConfig().getString("messages.kill-message"));
+        logInAfterKillMessage = format(getConfig().getString("messages.log-in-after-kill"));
+        combatExpiredMessage = format(getConfig().getString("messages.combat-expired"));
     }
     public static void reload(){
+        load();
+    }
+    public static void enable(JavaPlugin plugin){
+        if (!new File(plugin.getDataFolder() + "/config.yml").exists()){
+            plugin.saveDefaultConfig();
+        }
         load();
     }
 }

@@ -1,4 +1,4 @@
-combat-log-seconds: 20
+combat-log-seconds: 15
 npc-combat-log: true # set to true to spawn a npc - false to insta kill
 combat-logged-message-radius: -1 # set to -1 to broadcast to everyone
 combat-tag-seconds: 15
@@ -13,3 +13,5 @@ messages:
   action-bar-message: '&cYou are in combat for &e%1&c seconds.'
   log-in-after-kill: '&cYou logged out while in combat and was killed by &e%1'
   combat-expired: '&aYour combat tag has expired.'
+  kill-message: '&c%1 was killed while combat logged.'
+update-check: true

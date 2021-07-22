@@ -2,8 +2,12 @@ package net.badbird5907.anticombatlog.listener;
 
 import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.manager.NPCManager;
+import net.badbird5907.anticombatlog.object.NPCTrait;
+import net.badbird5907.anticombatlog.utils.CC;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.anticombatlog.utils.StringUtils;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +15,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+
+import java.util.UUID;
 
 public class CombatListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
@@ -36,14 +42,18 @@ public class CombatListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event){
         if (event.getEntity().hasMetadata("NPC")){
+            NPC npc = CitizensAPI.getNPCRegistry().getNPC(event.getEntity());
+            event.setDeathMessage(StringUtils.format(ConfigValues.getKillMessage(),npc.getName()));
         }
         if (AntiCombatLog.getKilled().contains(event.getEntity().getUniqueId())){
-            System.out.println("gwebhchiji");
             AntiCombatLog.getKilled().remove(event.getEntity().getUniqueId());
             event.getDrops().clear();
             event.setDroppedExp(0);
             event.setDeathMessage(null);
-            event.getEntity().sendMessage(StringUtils.format(ConfigValues.getLogInAfterKillMessage(),AntiCombatLog.getToKillOnLogin().get(event.getEntity().getUniqueId())));
+            String killer = AntiCombatLog.getToKillOnLogin().get(event.getEntity().getUniqueId());
+            if (killer == null)
+                killer = "null";
+            event.getEntity().sendMessage(StringUtils.format(ConfigValues.getLogInAfterKillMessage(),killer));
             AntiCombatLog.getToKillOnLogin().remove(event.getEntity().getUniqueId());
             return;
         }

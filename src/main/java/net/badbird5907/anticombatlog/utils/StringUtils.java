@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 @UtilityClass
 public class StringUtils {
     public static String replacePlaceholders(final String str, final String... replace){
+        if (replace == null)
+            return str;
         int i = 0;
         String finalReturn = str;
         for (String s : replace) {

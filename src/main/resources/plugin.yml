@@ -3,3 +3,10 @@ version: ${project.version}
 main: net.badbird5907.anticombatlog.AntiCombatLog
 api-version: 1.17
 depend: [ Citizens ]
+commands:
+  anticombatlog:
+    description: main command
+    aliases: [combat,combatlog]
+  resetcooldown:
+    description: reset cooldown
+    permission: anticombatlog.command.resetcooldown

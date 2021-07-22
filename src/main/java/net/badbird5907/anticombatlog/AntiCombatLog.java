@@ -4,11 +4,15 @@ import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
+import net.badbird5907.anticombatlog.commands.ResetCooldownCommand;
 import net.badbird5907.anticombatlog.listener.CombatListener;
 import net.badbird5907.anticombatlog.listener.ConnectionListener;
 import net.badbird5907.anticombatlog.listener.NPCListener;
 import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.runnbale.UpdateRunnable;
+import net.badbird5907.anticombatlog.spigot.Metrics;
+import net.badbird5907.anticombatlog.spigot.UpdateChecker;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.anticombatlog.utils.StringUtils;
 import org.bukkit.Bukkit;
@@ -22,14 +26,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
-public final class AntiCombatLog extends JavaPlugin {
+public final class AntiCombatLog extends JavaPlugin { //TODO config editor in game
     @Getter
     @Setter
     private static Map<UUID,Integer> inCombatTag = new HashMap<>(); //might do async idk
     @Getter
     @Setter
-    private static Map<UUID,String> toKillOnLogin = new ConcurrentHashMap<>();
+    private static Map<UUID,String> toKillOnLogin = new HashMap<>();
     @Getter
     private static AntiCombatLog instance;
     private static UpdateRunnable updateRunnable;
@@ -37,33 +42,53 @@ public final class AntiCombatLog extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        getLogger().info("Starting AntiCombatLog V." + getDescription().getVersion() + " by Badbird5907");
+        long start = System.currentTimeMillis();
         if (!getDataFolder().exists())
             getDataFolder().mkdirs();
+        Metrics metrics = new Metrics(this,12150);
+        ConfigValues.enable(this);
+        getCommand("anticombatlog").setExecutor(new AntiCombatLogCommand());
+        getCommand("resetcooldown").setExecutor(new ResetCooldownCommand());
         file = new File(getInstance().getDataFolder().getAbsolutePath() + "/data.json");
         if (!file.exists()){
             file.createNewFile();
             PrintStream ps = new PrintStream(file);
-            ps.print(new Gson().toJson(toKillOnLogin));
+            ps.print("{}");
         }
         loadData();
-        updateRunnable = new UpdateRunnable();
-        updateRunnable.runTaskTimer(this,40l,20l);
         Listener[] listeners = new Listener[]{new CombatListener(),new ConnectionListener(),new NPCListener()};
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener,this);
         }
+        updateRunnable = new UpdateRunnable();
+        updateRunnable.runTaskTimer(this, 40L, 20L);
+        if (getConfig().getBoolean("update-check")){
+            new UpdateChecker(this,-1).getVersion(version ->{
+                if (!this.getDescription().getVersion().equalsIgnoreCase(version)){
+                    getLogger().info("There a new update available! Download at https://badbird5907.xyz/anticombatlog");
+                }else{
+                    getLogger().info("There is no new update available!");
+                }
+            });
+        }
+        getLogger().info(StringUtils.replacePlaceholders("Done initializing AntiCombatLog (took %1 ms.)",(System.currentTimeMillis() - start) +""));
     }
 
     @Override
     public void onDisable() {
+        getLogger().info("Disabling AntiCombatLog! Thanks for choosing this!");
         String json = new Gson().toJson(toKillOnLogin);
         try {
             PrintStream ps = new PrintStream(file);
             ps.print(json);
             ps.close();
         } catch (FileNotFoundException e) {
+            System.err.println("Failed to save data.json!");
             e.printStackTrace();
-        }        updateRunnable.cancel();
+        }
+        if (updateRunnable != null)
+            updateRunnable.cancel();
     }
 
     @Override
@@ -79,9 +104,10 @@ public final class AntiCombatLog extends JavaPlugin {
     private static File file = null;
     @SneakyThrows
     public static void loadData(){
-        Bukkit.getScheduler().runTaskAsynchronously(getInstance(),()->{
-            toKillOnLogin = new Gson().fromJson(StringUtils.readFile(file), ConcurrentHashMap.class);
-        });
+        String json = StringUtils.readFile(file);
+        toKillOnLogin = new HashMap<>();
+        Map<String,String> a = new Gson().fromJson(json,HashMap.class); //should fix random classcast exception
+        a.forEach((a1,b)->toKillOnLogin.put(UUID.fromString(a1),b)); //FIXME
     }
     public static void saveData(){
         Bukkit.getScheduler().runTaskAsynchronously(getInstance(),()->{
@@ -134,9 +160,11 @@ public final class AntiCombatLog extends JavaPlugin {
     private static List<UUID> killed = new ArrayList<>();
     public static void join(Player player){
         if (toKillOnLogin.containsKey(player.getUniqueId())){
-            killed.add(player.getUniqueId());
-            player.setHealth(0.0d);
             toKillOnLogin.remove(player.getUniqueId());
+            killed.add(player.getUniqueId());
+            player.getInventory().clear();
+            player.setHealth(0.0d);
+            saveData();
             return;
         }
         if (NPCManager.isSpawned(player.getUniqueId())){
