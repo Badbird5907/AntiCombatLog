@@ -1,6 +1,7 @@
-package net.badbird5907.anticombatlog.runnbale;
+package net.badbird5907.anticombatlog.runnable;
 
 import net.badbird5907.anticombatlog.AntiCombatLog;
+import net.badbird5907.anticombatlog.api.events.UnCombatTagEvent;
 import net.badbird5907.anticombatlog.manager.ActionBarManager;
 import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.manager.ScoreboardManager;
@@ -24,6 +25,8 @@ public class UpdateRunnable extends BukkitRunnable {
                 if (a > 0)
                     stillInCombat.put(uuid,a);
                 else {
+                    UnCombatTagEvent event = new UnCombatTagEvent(Bukkit.getPlayer(uuid));
+                    Bukkit.getPluginManager().callEvent(event);
                     ScoreboardManager.getScoreboards().remove(uuid);
                     Bukkit.getPlayer(uuid).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
                     Bukkit.getPlayer(uuid).sendMessage(ConfigValues.getCombatExpiredMessage());

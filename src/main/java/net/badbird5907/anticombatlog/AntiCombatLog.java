@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import net.badbird5907.anticombatlog.api.events.CombatTagEvent;
 import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
 import net.badbird5907.anticombatlog.commands.ResetTagCommand;
 import net.badbird5907.anticombatlog.listener.CombatListener;
 import net.badbird5907.anticombatlog.listener.ConnectionListener;
 import net.badbird5907.anticombatlog.listener.NPCListener;
 import net.badbird5907.anticombatlog.manager.NPCManager;
-import net.badbird5907.anticombatlog.runnbale.UpdateRunnable;
+import net.badbird5907.anticombatlog.runnable.UpdateRunnable;
 import net.badbird5907.anticombatlog.spigot.Metrics;
 import net.badbird5907.anticombatlog.spigot.UpdateChecker;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
@@ -133,6 +134,10 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     }
     public static void tag(Player player){
         if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE)
+            return;
+        CombatTagEvent event = new CombatTagEvent(player);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled())
             return;
         boolean sendMessage = true;
         if (inCombatTag.containsKey(player.getUniqueId())){

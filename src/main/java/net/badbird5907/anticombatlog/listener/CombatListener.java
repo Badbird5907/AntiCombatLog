@@ -1,6 +1,7 @@
 package net.badbird5907.anticombatlog.listener;
 
 import net.badbird5907.anticombatlog.AntiCombatLog;
+import net.badbird5907.anticombatlog.api.events.CombatLogKillEvent;
 import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.object.NPCTrait;
 import net.badbird5907.anticombatlog.utils.CC;
@@ -8,6 +9,7 @@ import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.anticombatlog.utils.StringUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,10 +41,16 @@ public class CombatListener implements Listener {
             AntiCombatLog.tag(damager);
         }
     }
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(PlayerDeathEvent event){
-        if (event.getEntity().hasMetadata("NPC")){
+        if (event.getEntity().hasMetadata("NPC") && CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).hasTrait(NPCTrait.class)){
             NPC npc = CitizensAPI.getNPCRegistry().getNPC(event.getEntity());
+            CombatLogKillEvent event1 = new CombatLogKillEvent(CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).getTrait(NPCTrait.class).getUuid(),event);
+            Bukkit.getPluginManager().callEvent(event1);
+            if (event1.isCancelled()) {
+                event.setCancelled(true);
+                return;
+            }
             event.setDeathMessage(StringUtils.format(ConfigValues.getKillMessage(),npc.getName()));
         }
         if (AntiCombatLog.getKilled().contains(event.getEntity().getUniqueId())){
