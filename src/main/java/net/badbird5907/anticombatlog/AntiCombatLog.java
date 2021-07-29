@@ -132,21 +132,28 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             }
         }
     }
-    public static void tag(Player player){
-        if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE)
+    public static void tag(Player victim,Player attacker){
+        if ((victim.getGameMode() != GameMode.SURVIVAL && victim.getGameMode() != GameMode.ADVENTURE) && (attacker.getGameMode() != GameMode.SURVIVAL && victim.getGameMode() != GameMode.ADVENTURE))
             return;
-        CombatTagEvent event = new CombatTagEvent(player);
+        CombatTagEvent event = new CombatTagEvent(victim,attacker);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled())
             return;
-        boolean sendMessage = true;
-        if (inCombatTag.containsKey(player.getUniqueId())){
-            inCombatTag.remove(player.getUniqueId());
-            sendMessage = false;
+        boolean sendMessageVictim = true;
+        boolean sendMessageAttacker = true;
+        if (inCombatTag.containsKey(victim.getUniqueId())){
+            inCombatTag.remove(victim.getUniqueId());
+            sendMessageVictim = false;
         }
-        inCombatTag.put(player.getUniqueId(),ConfigValues.getCombatTagSeconds());
-        if (sendMessage)
-            player.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(),ConfigValues.getCombatTagSeconds() + ""));
+        if (inCombatTag.containsKey(attacker.getUniqueId())){
+            inCombatTag.remove(attacker.getUniqueId());
+            sendMessageAttacker = false;
+        }
+        inCombatTag.put(victim.getUniqueId(),ConfigValues.getCombatTagSeconds());
+        if (sendMessageVictim)
+            victim.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(),ConfigValues.getCombatTagSeconds() + ""));
+        if (sendMessageAttacker)
+            victim.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(),ConfigValues.getCombatTagSeconds() + ""));
     }
     public static void disconnect(Player player){
         if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE)

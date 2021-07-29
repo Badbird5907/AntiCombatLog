@@ -22,7 +22,8 @@ public class CombatTagEvent extends Event implements Cancellable {
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
     }
-    private final Player player;
+    private final Player victim;
+    private final Player attacker;
 
 
     @Override
