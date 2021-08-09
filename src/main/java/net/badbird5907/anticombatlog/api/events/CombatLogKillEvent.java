@@ -30,6 +30,6 @@ public class CombatLogKillEvent extends Event implements Cancellable {
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return null;
+        return new HandlerList();
     }
 }

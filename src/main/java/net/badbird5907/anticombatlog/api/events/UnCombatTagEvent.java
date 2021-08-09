@@ -13,9 +13,9 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @Setter
 public class UnCombatTagEvent extends Event {
-    private final Player player;
+    private final Player player; //TODO keep track of last combat tagged
     @Override
     public @NotNull HandlerList getHandlers() {
-        return null;
+        return new HandlerList();
     }
 }
