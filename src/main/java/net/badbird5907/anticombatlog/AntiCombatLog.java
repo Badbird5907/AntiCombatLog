@@ -150,10 +150,11 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             sendMessageAttacker = false;
         }
         inCombatTag.put(victim.getUniqueId(),ConfigValues.getCombatTagSeconds());
+        inCombatTag.put(attacker.getUniqueId(),ConfigValues.getCombatTagSeconds());
         if (sendMessageVictim)
             victim.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(),ConfigValues.getCombatTagSeconds() + ""));
         if (sendMessageAttacker)
-            victim.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(),ConfigValues.getCombatTagSeconds() + ""));
+            attacker.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(),ConfigValues.getCombatTagSeconds() + ""));
     }
     public static void disconnect(Player player){
         if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE)

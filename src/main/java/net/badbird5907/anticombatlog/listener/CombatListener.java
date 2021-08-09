@@ -37,6 +37,7 @@ public class CombatListener implements Listener {
         }
         if (event.getEntity() instanceof Player && event.getDamager() instanceof Player){
             Player player = (Player) event.getEntity(),damager = (Player) event.getDamager();
+
             AntiCombatLog.tag(player,damager);
         }
     }
