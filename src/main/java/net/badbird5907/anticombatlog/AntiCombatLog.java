@@ -35,6 +35,9 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     @Setter
     private static Map<UUID,String> toKillOnLogin = new HashMap<>();
     @Getter
+    @Setter
+    private static Set<UUID> freezeTimer = new HashSet<>();
+    @Getter
     private static AntiCombatLog instance;
     private static UpdateRunnable updateRunnable;
     @SneakyThrows
@@ -165,6 +168,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         }
         NPCManager.spawn(player,ConfigValues.getCombatLogSeconds());
         sendCombatLoggedMessage(player);
+        freezeTimer.add(player.getUniqueId());
     }
     @Getter
     private static List<UUID> killed = new ArrayList<>();
