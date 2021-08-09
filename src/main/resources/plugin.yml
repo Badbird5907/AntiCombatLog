@@ -4,7 +4,7 @@ main: net.badbird5907.anticombatlog.AntiCombatLog
 api-version: 1.17
 depend: [ Citizens ]
 softdepend:
-  - Floodgate
+  - floodgate
 commands:
   anticombatlog:
     description: main command

@@ -49,6 +49,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         if (!getDataFolder().exists())
             getDataFolder().mkdirs();
         Metrics metrics = new Metrics(this,12150);
+
         ConfigValues.enable(this);
         getCommand("anticombatlog").setExecutor(new AntiCombatLogCommand());
         getCommand("resettag").setExecutor(new ResetTagCommand());
@@ -189,7 +190,6 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         if (freezeTimer.contains(player.getUniqueId())){
             freezeTimer.remove(player.getUniqueId());
             int a = getInCombatTag().get(player.getUniqueId());
-            getInCombatTag().remove(player.getUniqueId());
             getInCombatTag().put(player.getUniqueId(),a + getInstance().getConfig().getInt("login-after-combat-log-add-timer-seconds"));
         }
     }
