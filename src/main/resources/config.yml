@@ -6,6 +6,7 @@ npc-hit-reset-seconds: 35 #set to -1 to disable
 #Wether to use a scoreboard, actionbar, or both
 #Values: BOARD ACTIONBAR BOTH
 notify-type: BOTH
+login-after-combat-log-add-timer-seconds: 5 #seconds to add to the combat timer if you log out and back in while in combat
 messages:
   combat-tagged: '&cYou have been combat tagged. If you log out right now, you will not be safe. Your combat tag expires in &e%1'
   un-combat-tagged: '&aYou have been un-combat tagged! You may safely log out now.'
