@@ -90,6 +90,10 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             System.err.println("Failed to save data.json!");
             e.printStackTrace();
         }
+        getLogger().info("Despawning current combat logged NPCs.");
+        NPCManager.getNpcs().forEach((uuid, integerNPCStringTriplet) -> {
+            NPCManager.despawn(uuid);
+        });
         if (updateRunnable != null)
             updateRunnable.cancel();
     }
