@@ -164,7 +164,6 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         }
         NPCManager.spawn(player,ConfigValues.getCombatLogSeconds());
         sendCombatLoggedMessage(player);
-        getInCombatTag().remove(player.getUniqueId());
     }
     @Getter
     private static List<UUID> killed = new ArrayList<>();
