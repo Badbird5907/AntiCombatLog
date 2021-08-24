@@ -32,6 +32,9 @@ public class NPCTrait extends Trait {
         getNPC().getEntity().setInvulnerable(false);
         LivingEntity le = (LivingEntity) getNPC().getEntity();
         le.setHealth(health);
+        le.setInvulnerable(false);
+        le.setNoDamageTicks(0);
+        le.setMaximumNoDamageTicks(0);
     }
 
     @Override

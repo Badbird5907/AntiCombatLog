@@ -4,7 +4,6 @@ import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.api.events.CombatLogKillEvent;
 import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.object.NPCTrait;
-import net.badbird5907.anticombatlog.utils.CC;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.anticombatlog.utils.StringUtils;
 import net.citizensnpcs.api.CitizensAPI;
@@ -17,8 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-
-import java.util.UUID;
 
 public class CombatListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)

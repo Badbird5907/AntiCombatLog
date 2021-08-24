@@ -53,7 +53,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         ConfigValues.enable(this);
         getCommand("anticombatlog").setExecutor(new AntiCombatLogCommand());
         getCommand("resettag").setExecutor(new ResetTagCommand());
-        file = new File(getInstance().getDataFolder().getAbsolutePath() + "/data.json");
+        file = new File(getInstance().getDataFolder() + "/data.json");
         if (!file.exists()){
             file.createNewFile();
             PrintStream ps = new PrintStream(file);
@@ -70,9 +70,9 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             new UpdateChecker(this,94540).getVersion(version ->{
                 if (!this.getDescription().getVersion().equalsIgnoreCase(version)){
                     getLogger().info("There a new update available! Download at https://badbird5907.xyz/anticombatlog");
-                }else{
-                    //just dont say anything
                 }
+                //just dont say anything
+
             });
         }
         getLogger().info(StringUtils.replacePlaceholders("Done initializing AntiCombatLog (took %1 ms.)",(System.currentTimeMillis() - start) +""));
@@ -109,7 +109,6 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         return YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/config.yml"));
     }
     private static File file = null;
-    @SneakyThrows
     public static void loadData(){
         String json = StringUtils.readFile(file);
         toKillOnLogin = new HashMap<>();
