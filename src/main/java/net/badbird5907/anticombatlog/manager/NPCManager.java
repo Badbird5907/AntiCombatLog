@@ -7,7 +7,9 @@ import net.badbird5907.anticombatlog.object.Triplet;
 import net.badbird5907.anticombatlog.utils.CC;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.MemoryNPCDataStore;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Inventory;
 import net.citizensnpcs.trait.SkinTrait;
@@ -44,7 +46,7 @@ public class NPCManager {
         });
     }
     public static void spawn(Player player,int i){
-        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, CC.RED + CC.B + "DISCONNECTED: " + CC.R + CC.RED + player.getName() );
+        NPC npc = getNPCRegistry().createNPC(EntityType.PLAYER, CC.RED + CC.B + "DISCONNECTED: " + CC.R + CC.RED + player.getName() );
 
         npc.addTrait(new NPCTrait("anticombatlog", player.getExp(), player.getUniqueId(), Arrays.asList(player.getInventory().getContents()), player.getHealth()));
         //npc.getTrait(HologramTrait.class).addLine(CC.YELLOW + CC.B + i + " seconds left");
@@ -95,5 +97,10 @@ public class NPCManager {
                 triplet.setValue0(ConfigValues.getNpcHitResetSecond());
             }
         });
+    }
+    public static NPCRegistry getNPCRegistry(){
+        if (CitizensAPI.getNamedNPCRegistry("AntiCombatLog") == null)
+            CitizensAPI.createNamedNPCRegistry("AntiCombatLog",new MemoryNPCDataStore());
+        return CitizensAPI.getNamedNPCRegistry("AntiCombatLog");
     }
 }

@@ -9,6 +9,7 @@ import net.badbird5907.anticombatlog.utils.StringUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +23,7 @@ public class CombatListener implements Listener {
     public void onDamage(EntityDamageByEntityEvent event){
         if (event.isCancelled())
             return;
-        if (event.getEntity().hasMetadata("NPC")) { //is offline npc
+        if (event.getEntity().hasMetadata("NPC") && NPCManager.getNPCRegistry().getNPC(event.getEntity()).hasTrait(NPCTrait.class)) { //is offline npc
             if (!(event.getEntity() instanceof Player))
                 return;
             NPCManager.damaged(event.getEntity());
@@ -36,6 +37,11 @@ public class CombatListener implements Listener {
             Player player = (Player) event.getEntity(),damager = (Player) event.getDamager();
 
             AntiCombatLog.tag(player,damager);
+        }else if (event.getDamager() instanceof Arrow){
+            Arrow arrow = (Arrow) event.getDamager();
+            if (arrow.getShooter() instanceof Player){
+                AntiCombatLog.tag((Player) event.getEntity(),((Player) arrow.getShooter()).getPlayer());
+            }
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
