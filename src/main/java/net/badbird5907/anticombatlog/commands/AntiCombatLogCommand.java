@@ -15,7 +15,6 @@ public class AntiCombatLogCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         sender.sendMessage(CC.AQUA + "Anti-Combat-Log V." + AntiCombatLog.getInstance().getDescription().getVersion());
         sender.sendMessage(CC.AQUA + "By Badbird5907");
-        System.out.println(Arrays.toString(AntiCombatLog.getToKillOnLogin().keySet().toArray(new UUID[0])));
         return true;
     }
 }
