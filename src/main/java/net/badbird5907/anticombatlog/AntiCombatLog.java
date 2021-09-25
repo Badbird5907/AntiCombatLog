@@ -196,6 +196,11 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             getInCombatTag().put(player.getUniqueId(),a + getInstance().getConfig().getInt("login-after-combat-log-add-timer-seconds",5));
         }
     }
+    public void clearCombatTag(Player player){
+        AntiCombatLog.getInCombatTag().remove(player.getUniqueId());
+        if (ConfigValues.scoreboardEnabled())
+            player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+    }
     public static boolean isCombatTagged(Player player){
         return getInCombatTag().containsKey(player.getUniqueId());
     }

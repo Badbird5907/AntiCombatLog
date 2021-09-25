@@ -128,6 +128,9 @@ public class ConfigValues {
     public static void reload(){
         load();
     }
+    public static boolean scoreboardEnabled(){
+        return notifyType == NotifyType.BOTH || notifyType == NotifyType.BOARD;
+    }
     public static void enable(JavaPlugin plugin){
         if (!new File(plugin.getDataFolder() + "/config.yml").exists()){
             plugin.saveDefaultConfig();

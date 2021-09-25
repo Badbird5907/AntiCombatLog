@@ -68,6 +68,6 @@ public class CombatListener implements Listener {
             AntiCombatLog.getToKillOnLogin().remove(event.getEntity().getUniqueId());
             return;
         }
-        AntiCombatLog.getInCombatTag().remove(event.getEntity().getUniqueId());
+        AntiCombatLog.getInstance().clearCombatTag(event.getEntity());
     }
 }
