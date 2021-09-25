@@ -42,6 +42,5 @@ public class UpdateRunnable extends BukkitRunnable {
             ScoreboardManager.update();
         if (ConfigValues.getNotifyType() == NotifyType.ACTIONBAR || ConfigValues.getNotifyType() == NotifyType.BOTH)
             ActionBarManager.update();
-        ActionBarManager.update();
     }
 }
