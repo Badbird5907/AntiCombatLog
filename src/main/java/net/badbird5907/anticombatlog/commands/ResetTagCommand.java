@@ -22,7 +22,7 @@ public class ResetTagCommand implements CommandExecutor {
             sender.sendMessage(CC.RED + "Could not find that player!");
             return true;
         }
-        AntiCombatLog.getInCombatTag().remove(p.getUniqueId());
+        AntiCombatLog.getInstance().clearCombatTag(p);
         sender.sendMessage(CC.GREEN + "Done!");
         return true;
     }
