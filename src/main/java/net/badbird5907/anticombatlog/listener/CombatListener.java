@@ -39,7 +39,7 @@ public class CombatListener implements Listener {
             AntiCombatLog.tag(player,damager);
         }else if (event.getDamager() instanceof Arrow){
             Arrow arrow = (Arrow) event.getDamager();
-            if (arrow.getShooter() instanceof Player){
+            if (arrow.getShooter() instanceof Player && event.getEntity() instanceof Player){
                 AntiCombatLog.tag((Player) event.getEntity(),((Player) arrow.getShooter()).getPlayer());
             }
         }
