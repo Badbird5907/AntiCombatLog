@@ -19,7 +19,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class CombatListener implements Listener {
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onDamage(EntityDamageByEntityEvent event){
         if (event.isCancelled())
             return;
@@ -37,7 +37,9 @@ public class CombatListener implements Listener {
             Player player = (Player) event.getEntity(),damager = (Player) event.getDamager();
 
             AntiCombatLog.tag(player,damager);
-        }else if (event.getDamager() instanceof Arrow){
+            return;
+        }
+        if (event.getDamager() instanceof Arrow && event.getEntity() instanceof Player){
             Arrow arrow = (Arrow) event.getDamager();
             if (arrow.getShooter() instanceof Player && event.getEntity() instanceof Player){
                 AntiCombatLog.tag((Player) event.getEntity(),((Player) arrow.getShooter()).getPlayer());
