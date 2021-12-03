@@ -80,7 +80,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
 
     @Override
     public void onDisable() {
-        getLogger().info("Disabling AntiCombatLog! Thanks for choosing this!");
+        getLogger().info("Disabling AntiCombatLog!");
         String json = new Gson().toJson(toKillOnLogin);
         try {
             PrintStream ps = new PrintStream(file);
