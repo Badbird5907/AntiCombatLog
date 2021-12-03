@@ -140,7 +140,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         }
     }
     public static void tag(Player victim,Player attacker){
-        if ((victim.getGameMode() != GameMode.SURVIVAL && victim.getGameMode() != GameMode.ADVENTURE) && (attacker.getGameMode() != GameMode.SURVIVAL && victim.getGameMode() != GameMode.ADVENTURE))
+        if (victim.getGameMode() == GameMode.CREATIVE || attacker.getGameMode() == GameMode.CREATIVE)
             return;
         CombatTagEvent event = new CombatTagEvent(victim,attacker);
         Bukkit.getPluginManager().callEvent(event);

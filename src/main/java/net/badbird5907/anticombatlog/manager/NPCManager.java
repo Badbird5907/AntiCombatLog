@@ -2,7 +2,7 @@ package net.badbird5907.anticombatlog.manager;
 
 import lombok.Getter;
 import net.badbird5907.anticombatlog.object.HoloTrait;
-import net.badbird5907.anticombatlog.object.NPCTrait;
+import net.badbird5907.anticombatlog.object.CombatNPCTrait;
 import net.badbird5907.anticombatlog.object.Triplet;
 import net.badbird5907.anticombatlog.utils.CC;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
@@ -14,7 +14,6 @@ import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Inventory;
 import net.citizensnpcs.trait.SkinTrait;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -48,7 +47,7 @@ public class NPCManager {
     public static void spawn(Player player,int i){
         NPC npc = getNPCRegistry().createNPC(EntityType.PLAYER, CC.RED + CC.B + "DISCONNECTED: " + CC.R + CC.RED + player.getName() );
 
-        npc.addTrait(new NPCTrait("anticombatlog", player.getExp(), player.getUniqueId(), Arrays.asList(player.getInventory().getContents()), player.getHealth()));
+        npc.addTrait(new CombatNPCTrait("anticombatlog", player.getExp(), player.getUniqueId(), Arrays.asList(player.getInventory().getContents()), player.getHealth()));
         //npc.getTrait(HologramTrait.class).addLine(CC.YELLOW + CC.B + i + " seconds left");
         npc.addTrait(new HoloTrait(player.getLocation()));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS,player.getInventory().getBoots());

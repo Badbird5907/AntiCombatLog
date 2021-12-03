@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.UUID;
 
-public class NPCTrait extends Trait {
+public class CombatNPCTrait extends Trait {
     @Getter
     private final float xp;
     @Getter
@@ -17,7 +17,7 @@ public class NPCTrait extends Trait {
     private final List<ItemStack> items;
     @Getter
     private final double health;
-    public NPCTrait(String name, float xp, UUID uuid, List<ItemStack> items, double health) {
+    public CombatNPCTrait(String name, float xp, UUID uuid, List<ItemStack> items, double health) {
         super(name);
         this.xp = xp;
         this.uuid = uuid;
