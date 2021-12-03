@@ -35,6 +35,15 @@ public class ScoreboardManager {
                 else setScoreBoard(Bukkit.getPlayer(uuid),integer);
             }
         });
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (!scoreboards.contains(player.getUniqueId())) return;
+            if (!AntiCombatLog.getInCombatTag().containsKey(player.getUniqueId())) return;
+
+            if (player.getScoreboard() != null && player.getScoreboard().getTeam("timerCounter") != null){
+                player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+                Bukkit.getLogger().severe("Scoreboard didn't update correctly for " + player.getName() + "!");
+            }
+        }
     }
     public static void updateBoard(Player player,int i){
         Scoreboard board = player.getScoreboard();
