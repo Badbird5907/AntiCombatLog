@@ -15,7 +15,7 @@ import java.util.UUID;
 public class ScoreboardManager {
     @Getter
     private static List<UUID> scoreboards = new ArrayList<>();
-    public static void setScoreBoard(Player player,int i){
+    private static void setScoreBoard(Player player,int i){
         Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective obj = board.registerNewObjective("combatlog","dummy",CC.RED + CC.B + "Combat Tag");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -45,7 +45,11 @@ public class ScoreboardManager {
             }
         }
     }
-    public static void updateBoard(Player player,int i){
+    private static void updateBoard(Player player,int i){
+        if (i <= 0) {
+            player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+            return;
+        }
         Scoreboard board = player.getScoreboard();
         if (board == null){
             setScoreBoard(player, i);
