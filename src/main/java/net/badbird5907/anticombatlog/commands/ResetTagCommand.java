@@ -12,13 +12,13 @@ import org.jetbrains.annotations.NotNull;
 public class ResetTagCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length != 1){
+        if (args.length != 1) {
             sender.sendMessage(CC.RED + "Usage: /resettag <player>");
             return true;
         }
         String target = args[0];
         Player p = Bukkit.getPlayer(target);
-        if (p == null){
+        if (p == null) {
             sender.sendMessage(CC.RED + "Could not find that player!");
             return true;
         }

@@ -17,6 +17,7 @@ public class CombatNPCTrait extends Trait {
     private final List<ItemStack> items;
     @Getter
     private final double health;
+
     public CombatNPCTrait(String name, float xp, UUID uuid, List<ItemStack> items, double health) {
         super(name);
         this.xp = xp;

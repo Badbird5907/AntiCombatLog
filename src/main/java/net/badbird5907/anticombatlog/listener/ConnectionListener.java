@@ -8,13 +8,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ConnectionListener implements Listener {
     @EventHandler
-    public void onDisconnect(PlayerQuitEvent event){
-        if (AntiCombatLog.isCombatTagged(event.getPlayer())){
+    public void onDisconnect(PlayerQuitEvent event) {
+        if (AntiCombatLog.isCombatTagged(event.getPlayer())) {
             AntiCombatLog.disconnect(event.getPlayer());
         }
     }
+
     @EventHandler
-    public void onConnect(PlayerJoinEvent event){
+    public void onConnect(PlayerJoinEvent event) {
         AntiCombatLog.join(event.getPlayer());
     }
 }
