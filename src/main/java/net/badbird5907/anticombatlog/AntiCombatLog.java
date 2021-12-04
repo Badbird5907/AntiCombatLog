@@ -45,6 +45,8 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     private static File file = null;
     @Getter
     private static final List<UUID> killed = new ArrayList<>();
+    @Getter
+    private static String newVersion = "";
 
     public static void loadData() {
         String json = StringUtils.readFile(file);
@@ -140,6 +142,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     public static boolean isCombatTagged(Player player) {
         return getInCombatTag().containsKey(player.getUniqueId());
     }
+    public static boolean updateAvailable = false;
 
     @SneakyThrows
     @Override
@@ -170,6 +173,8 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         if (getConfig().getBoolean("update-check")) {
             new UpdateChecker(this, 94540).getVersion(version -> {
                 if (!this.getDescription().getVersion().equalsIgnoreCase(version)) {
+                    updateAvailable = true;
+                    newVersion = version;
                     getLogger().info("There a new update available! Download at https://badbird5907.xyz/anticombatlog");
                 }
                 //just dont say anything
