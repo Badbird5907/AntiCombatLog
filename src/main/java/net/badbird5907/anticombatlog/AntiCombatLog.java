@@ -132,7 +132,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         }
         if (freezeTimer.contains(player.getUniqueId())) {
             freezeTimer.remove(player.getUniqueId());
-            int a = getInCombatTag().get(player.getUniqueId());
+            int a = getInCombatTag().getOrDefault(player.getUniqueId(), 0);
             getInCombatTag().put(player.getUniqueId(), a + getInstance().getConfig().getInt("login-after-combat-log-add-timer-seconds", 5));
         }
     }
