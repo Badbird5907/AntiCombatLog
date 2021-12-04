@@ -49,13 +49,15 @@ public class CC {
     public static final String X = "✘";
     public static final String CHECK = "\u2714";
 
-    public static String translate(String in){
-        return ChatColor.translateAlternateColorCodes('&',in);
+    public static String translate(String in) {
+        return ChatColor.translateAlternateColorCodes('&', in);
     }
+
     public static List<String> translate(List<String> input) {
         return input.stream().map(CC::translate).collect(Collectors.toList());
     }
-    public static String strip(String in){
+
+    public static String strip(String in) {
         return ChatColor.stripColor(in);
     }
 
