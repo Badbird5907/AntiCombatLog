@@ -15,7 +15,10 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CombatLogKillEvent extends Event implements Cancellable {
+    private final UUID player;
+    private final PlayerDeathEvent actualDeathEvent;
     private boolean cancelled = false;
+
     @Override
     public boolean isCancelled() {
         return cancelled;
@@ -25,8 +28,6 @@ public class CombatLogKillEvent extends Event implements Cancellable {
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
     }
-    private final UUID player;
-    private final PlayerDeathEvent actualDeathEvent;
 
     @Override
     public @NotNull HandlerList getHandlers() {

@@ -11,7 +11,10 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 @Getter
 public class CombatTagEvent extends Event implements Cancellable {
+    private final Player victim;
+    private final Player attacker;
     boolean cancelled;
+
     @Override
     public boolean isCancelled() {
         return cancelled;
@@ -21,9 +24,6 @@ public class CombatTagEvent extends Event implements Cancellable {
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
     }
-    private final Player victim;
-    private final Player attacker;
-
 
     @Override
     public @NotNull HandlerList getHandlers() {

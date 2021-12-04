@@ -1,9 +1,7 @@
 package net.badbird5907.anticombatlog.object;
+
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import net.citizensnpcs.Settings.Setting;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.MemoryNPCDataStore;
@@ -25,18 +23,22 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 @TraitName("hologramtrait")
 public class HoloTrait extends Trait {
+    private final List<NPC> hologramNPCs;
+    @Persist
+    private final List<String> lines;
+    private final NPCRegistry registry;
     private Location currentLoc;
     @Persist
     private net.citizensnpcs.trait.HologramTrait.HologramDirection direction;
-    private final List<NPC> hologramNPCs;
     @Persist
     private double lineHeight;
-    @Persist
-    private final List<String> lines;
     private NPC nameNPC;
-    private final NPCRegistry registry;
 
     public HoloTrait(Location loc) {
         super("hologramtrait");
@@ -77,17 +79,23 @@ public class HoloTrait extends Trait {
         return this.direction;
     }
 
+    public void setDirection(net.citizensnpcs.trait.HologramTrait.HologramDirection direction) {
+        this.direction = direction;
+        this.onDespawn();
+        this.onSpawn();
+    }
+
     private double getEntityHeight() {
         return NMS.getHeight(this.npc.getEntity());
     }
 
     private double getHeight(int lineNumber) {
-        return (this.lineHeight == -1.0D ? Setting.DEFAULT_NPC_HOLOGRAM_LINE_HEIGHT.asDouble() : this.lineHeight) * (double)(lineNumber + 1);
+        return (this.lineHeight == -1.0D ? Setting.DEFAULT_NPC_HOLOGRAM_LINE_HEIGHT.asDouble() : this.lineHeight) * (double) (lineNumber + 1);
     }
 
     public Collection<ArmorStand> getHologramEntities() {
         return Collections2.transform(this.hologramNPCs, (n) -> {
-            return (ArmorStand)n.getEntity();
+            return (ArmorStand) n.getEntity();
         });
     }
 
@@ -95,16 +103,22 @@ public class HoloTrait extends Trait {
         return this.lineHeight;
     }
 
+    public void setLineHeight(double height) {
+        this.lineHeight = height;
+        this.onDespawn();
+        this.onSpawn();
+    }
+
     public List<String> getLines() {
         return this.lines;
     }
 
     private double getMaxHeight() {
-        return (this.lineHeight == -1.0D ? Setting.DEFAULT_NPC_HOLOGRAM_LINE_HEIGHT.asDouble() : this.lineHeight) * (double)(this.lines.size() + (this.npc.requiresNameHologram() ? 0 : 1));
+        return (this.lineHeight == -1.0D ? Setting.DEFAULT_NPC_HOLOGRAM_LINE_HEIGHT.asDouble() : this.lineHeight) * (double) (this.lines.size() + (this.npc.requiresNameHologram() ? 0 : 1));
     }
 
     public ArmorStand getNameEntity() {
-        return this.nameNPC != null && this.nameNPC.isSpawned() ? (ArmorStand)this.npc.getEntity() : null;
+        return this.nameNPC != null && this.nameNPC.isSpawned() ? (ArmorStand) this.npc.getEntity() : null;
     }
 
     public void onDespawn() {
@@ -115,8 +129,8 @@ public class HoloTrait extends Trait {
 
         Iterator var1 = this.hologramNPCs.iterator();
 
-        while(var1.hasNext()) {
-            NPC npc = (NPC)var1.next();
+        while (var1.hasNext()) {
+            NPC npc = (NPC) var1.next();
             npc.destroy();
         }
 
@@ -133,9 +147,9 @@ public class HoloTrait extends Trait {
             this.nameNPC = this.createHologram(this.npc.getFullName(), 0.0D);
         }
 
-        for(int i = 0; i < this.lines.size(); ++i) {
-            String line = (String)this.lines.get(i);
-            this.hologramNPCs.add(this.createHologram(Placeholders.replace(line, (CommandSender)null, this.npc), this.getHeight(i)));
+        for (int i = 0; i < this.lines.size(); ++i) {
+            String line = this.lines.get(i);
+            this.hologramNPCs.add(this.createHologram(Placeholders.replace(line, null, this.npc), this.getHeight(i)));
         }
     }
 
@@ -173,21 +187,21 @@ public class HoloTrait extends Trait {
                 this.nameNPC.setName(this.npc.getFullName());
             }
 
-            for(int i = 0; i < this.hologramNPCs.size(); ++i) {
-                NPC hologramNPC = (NPC)this.hologramNPCs.get(i);
+            for (int i = 0; i < this.hologramNPCs.size(); ++i) {
+                NPC hologramNPC = this.hologramNPCs.get(i);
                 if (hologramNPC.isSpawned()) {
                     if (update) {
                         hologramNPC.teleport(this.currentLoc.clone().add(0.0D, this.getEntityHeight() + this.getHeight(i), 0.0D), TeleportCause.PLUGIN);
                     }
 
                     if (i >= this.lines.size()) {
-                        Messaging.severe(new Object[]{"More hologram NPCs than lines for ID", this.npc.getId(), "lines", this.lines});
+                        Messaging.severe("More hologram NPCs than lines for ID", this.npc.getId(), "lines", this.lines);
                         break;
                     }
 
-                    String text = (String)this.lines.get(i);
+                    String text = this.lines.get(i);
                     if (text != null && !ChatColor.stripColor(Colorizer.parseColors(text)).isEmpty()) {
-                        hologramNPC.setName(Placeholders.replace(text, (CommandSender)null, this.npc));
+                        hologramNPC.setName(Placeholders.replace(text, null, this.npc));
                         hologramNPC.data().set("nameplate-visible", true);
                     } else {
                         hologramNPC.setName("");
@@ -197,12 +211,6 @@ public class HoloTrait extends Trait {
             }
 
         }
-    }
-
-    public void setDirection(net.citizensnpcs.trait.HologramTrait.HologramDirection direction) {
-        this.direction = direction;
-        this.onDespawn();
-        this.onSpawn();
     }
 
     public void setLine(int idx, String text) {
@@ -216,17 +224,11 @@ public class HoloTrait extends Trait {
         this.onSpawn();
     }
 
-    public void setLineHeight(double height) {
-        this.lineHeight = height;
-        this.onDespawn();
-        this.onSpawn();
-    }
-
-    public static enum HologramDirection {
+    public enum HologramDirection {
         BOTTOM_UP,
         TOP_DOWN;
 
-        private HologramDirection() {
+        HologramDirection() {
         }
     }
 }

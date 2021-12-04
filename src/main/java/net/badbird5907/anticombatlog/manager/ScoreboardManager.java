@@ -14,10 +14,11 @@ import java.util.UUID;
 
 public class ScoreboardManager {
     @Getter
-    private static List<UUID> scoreboards = new ArrayList<>();
-    private static void setScoreBoard(Player player,int i){
+    private static final List<UUID> scoreboards = new ArrayList<>();
+
+    private static void setScoreBoard(Player player, int i) {
         Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-        Objective obj = board.registerNewObjective("combatlog","dummy",CC.RED + CC.B + "Combat Tag");
+        Objective obj = board.registerNewObjective("combatlog", "dummy", CC.RED + CC.B + "Combat Tag");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
         Score timer = obj.getScore(CC.GRAY + "Combat Timer");
         timer.setScore(2);
@@ -27,31 +28,32 @@ public class ScoreboardManager {
         obj.getScore(ChatColor.GREEN.toString()).setScore(1);
         player.setScoreboard(board);
     }
-    public static void update(){
+
+    public static void update() {
         AntiCombatLog.getInCombatTag().forEach((uuid, integer) -> {
-            if (Bukkit.getPlayer(uuid) != null){
+            if (Bukkit.getPlayer(uuid) != null) {
                 if (scoreboards.contains(uuid))
-                    updateBoard(Bukkit.getPlayer(uuid),integer);
-                else setScoreBoard(Bukkit.getPlayer(uuid),integer);
+                    updateBoard(Bukkit.getPlayer(uuid), integer);
+                else setScoreBoard(Bukkit.getPlayer(uuid), integer);
             }
         });
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!scoreboards.contains(player.getUniqueId())) return;
             if (!AntiCombatLog.getInCombatTag().containsKey(player.getUniqueId())) return;
 
-            if (player.getScoreboard() != null && player.getScoreboard().getTeam("timerCounter") != null){
+            if (player.getScoreboard() != null && player.getScoreboard().getTeam("timerCounter") != null) {
                 player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
                 Bukkit.getLogger().severe("Scoreboard didn't update correctly for " + player.getName() + "!");
             }
         }
     }
-    private static void updateBoard(Player player,int i){
+    private static void updateBoard(Player player, int i) {
         if (i <= 0) {
             player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
             return;
         }
         Scoreboard board = player.getScoreboard();
-        if (board == null){
+        if (board == null) {
             setScoreBoard(player, i);
             return;
         }
