@@ -13,3 +13,7 @@ commands:
     description: reset combat tag
     aliases: [resetcombattag]
     permission: anticombatlog.command.resettag
+permissions:
+  anticombatlog.admin:
+    description: nags about updates
+    default: op
