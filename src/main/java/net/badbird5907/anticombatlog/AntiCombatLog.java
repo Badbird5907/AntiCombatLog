@@ -8,16 +8,16 @@ import net.badbird5907.anticombatlog.api.events.CombatTagEvent;
 import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
 import net.badbird5907.anticombatlog.commands.ResetTagCommand;
 import net.badbird5907.anticombatlog.hooks.HookManager;
-import net.badbird5907.anticombatlog.hooks.impl.worldguard.WorldGuardHook;
 import net.badbird5907.anticombatlog.listener.CombatListener;
 import net.badbird5907.anticombatlog.listener.ConnectionListener;
 import net.badbird5907.anticombatlog.listener.NPCListener;
 import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.runnable.UpdateRunnable;
-import net.badbird5907.anticombatlog.spigot.Metrics;
-import net.badbird5907.anticombatlog.spigot.UpdateChecker;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.anticombatlog.utils.StringUtils;
+import net.badbird5907.blib.bLib;
+import net.badbird5907.blib.bstats.Metrics;
+import net.badbird5907.blib.spigotmc.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -148,10 +148,6 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
 
     @Override
     public void onLoad() {
-        if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
-            getLogger().info("Hooking into WorldGuard!");
-            HookManager.load(new WorldGuardHook());
-        }
     }
 
     @SneakyThrows
@@ -162,6 +158,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         long start = System.currentTimeMillis();
         if (!getDataFolder().exists())
             getDataFolder().mkdirs();
+        bLib.create(this);
         Metrics metrics = new Metrics(this, 12150);
 
         ConfigValues.enable(this);
@@ -181,7 +178,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         updateRunnable = new UpdateRunnable();
         updateRunnable.runTaskTimer(this, 40L, 20L);
         if (getConfig().getBoolean("update-check")) {
-            new UpdateChecker(this, 94540).getVersion(version -> {
+            new UpdateChecker(94540).getVersion(version -> {
                 if (!this.getDescription().getVersion().equalsIgnoreCase(version)) {
                     updateAvailable = true;
                     newVersion = version;
