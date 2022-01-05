@@ -47,7 +47,6 @@ public class ScoreboardManager {
             }
         }
     }
-
     private static void updateBoard(Player player, int i) {
         if (i <= 0) {
             player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
