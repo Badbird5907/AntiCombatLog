@@ -58,7 +58,7 @@ public class WorldGuardHook implements IHook {
                 }
                 RegionManager manager = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(event.getAttacker().getWorld()));
                 Location attacker = event.getAttacker().getLocation();
-                Set<ProtectedRegion> regionsAttacker = manager.getApplicableRegions(BlockVector3.at(attacker.getX(),attacker.getY(),attacker.getZ())).getRegions();
+                Set<ProtectedRegion> regionsAttacker = manager.getApplicableRegions(BlockVector3.at(attacker.getX(), attacker.getY(), attacker.getZ())).getRegions();
 
                 for (ProtectedRegion region : regionsAttacker) {
                     if (region.getFlag(ALLOW_PVP_IN_COMBAT) != null) {
@@ -69,7 +69,7 @@ public class WorldGuardHook implements IHook {
                     }
                 }
                 Location defender = event.getDefender().getLocation();
-                Set<ProtectedRegion> regionsDefender = manager.getApplicableRegions(BlockVector3.at(defender.getX(),defender.getY(),defender.getZ())).getRegions();
+                Set<ProtectedRegion> regionsDefender = manager.getApplicableRegions(BlockVector3.at(defender.getX(), defender.getY(), defender.getZ())).getRegions();
                 for (ProtectedRegion region : regionsDefender) {
                     if (region.getFlag(ALLOW_PVP_IN_COMBAT) != null) {
                         StateFlag.State f = region.getFlag(ALLOW_PVP_IN_COMBAT);
