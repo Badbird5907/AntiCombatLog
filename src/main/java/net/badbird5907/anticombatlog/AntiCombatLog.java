@@ -7,6 +7,8 @@ import lombok.SneakyThrows;
 import net.badbird5907.anticombatlog.api.events.CombatTagEvent;
 import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
 import net.badbird5907.anticombatlog.commands.ResetTagCommand;
+import net.badbird5907.anticombatlog.hooks.HookManager;
+import net.badbird5907.anticombatlog.hooks.impl.worldguard.WorldGuardHook;
 import net.badbird5907.anticombatlog.listener.CombatListener;
 import net.badbird5907.anticombatlog.listener.ConnectionListener;
 import net.badbird5907.anticombatlog.listener.NPCListener;
@@ -144,6 +146,14 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     }
     public static boolean updateAvailable = false;
 
+    @Override
+    public void onLoad() {
+        if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
+            getLogger().info("Hooking into WorldGuard!");
+            HookManager.load(new WorldGuardHook());
+        }
+    }
+
     @SneakyThrows
     @Override
     public void onEnable() {
@@ -181,12 +191,16 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
 
             });
         }
+        getLogger().info("Enabling plugin hooks...");
+        enableHooks();
         getLogger().info(StringUtils.replacePlaceholders("Done initializing AntiCombatLog (took %1 ms.)", (System.currentTimeMillis() - start) + ""));
     }
 
     @Override
     public void onDisable() {
         getLogger().info("Disabling AntiCombatLog!");
+        getLogger().info("Disabling plugin hooks...");
+        disableHooks();
         String json = new Gson().toJson(toKillOnLogin);
         try {
             PrintStream ps = new PrintStream(file);
@@ -219,5 +233,12 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         AntiCombatLog.getInCombatTag().remove(player.getUniqueId());
         if (ConfigValues.scoreboardEnabled())
             player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+    }
+
+    private void enableHooks() {
+        HookManager.enableAllLoaded();
+    }
+    private void disableHooks() {
+        HookManager.disableAll();
     }
 }
