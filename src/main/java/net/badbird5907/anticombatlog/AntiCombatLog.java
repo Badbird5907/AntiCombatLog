@@ -126,6 +126,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             killed.add(player.getUniqueId());
             player.getInventory().clear();
             player.setHealth(0.0d);
+            getInstance().clearCombatTag(player);
             saveData();
             return;
         }
