@@ -33,6 +33,8 @@ public class CombatListener implements Listener {
             le.damage(damage);
             return;
         }
+        if (event.getEntity() == event.getDamager())
+            return;
         if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
             Player player = (Player) event.getEntity(), damager = (Player) event.getDamager();
 
