@@ -1,5 +1,6 @@
 package net.badbird5907.anticombatlog.listener;
 
+import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +11,7 @@ public class BlockedCommandsListener implements Listener {
     public void onCommand(PlayerCommandPreprocessEvent event) {
         if (ConfigValues.isEnableBlockedCommands()) {
             String command = event.getMessage().split(" ")[0].replace("/", "");
-            if (ConfigValues.getBlockedCommands().contains(command)) {
+            if (ConfigValues.getBlockedCommands().contains(command) && AntiCombatLog.isCombatTagged(event.getPlayer())) {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage(ConfigValues.getBlockedCommandMessage());
             }
