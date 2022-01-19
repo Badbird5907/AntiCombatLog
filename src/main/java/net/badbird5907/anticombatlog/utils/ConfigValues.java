@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.List;
 
 import static net.badbird5907.anticombatlog.utils.StringUtils.format;
 
@@ -39,8 +40,34 @@ public class ConfigValues {
     @Getter
     private static NotifyType notifyType = NotifyType.BOTH;
 
+    @Getter
+    private static List<String> blockedCommands = null;
+    @Getter
+    private static boolean enableBlockedCommands = true;
+    @Getter
+    private static String blockedCommandMessage = null;
+
     private static FileConfiguration getConfig() {
         return AntiCombatLog.getInstance().getConfig();
+    }
+
+
+    public static void setBlockedCommands(List<String> blockedCommands) {
+        getConfig().set("blocked-commands.blocked", blockedCommands);
+        saveReload();
+        ConfigValues.blockedCommands = blockedCommands;
+    }
+
+    public static void setEnableBlockedCommands(boolean enableBlockedCommands) {
+        getConfig().set("blocked-commands.enabled", enableBlockedCommands);
+        saveReload();
+        ConfigValues.enableBlockedCommands = enableBlockedCommands;
+    }
+
+    public static void setBlockedCommandMessage(String blockedCommandMessage) {
+        getConfig().set("messages.blocked-command", blockedCommandMessage);
+        saveReload();
+        ConfigValues.blockedCommandMessage = blockedCommandMessage;
     }
 
     //this might crash the server
@@ -135,12 +162,15 @@ public class ConfigValues {
         combatLoggedMessageRadius = getConfig().getInt("combat-logged-message-radius");
         combatLoggedMessage = format(getConfig().getString("messages.logged-out-combat"));
         combatTagSeconds = getConfig().getInt("combat-tag-seconds");
-        notifyType = NotifyType.valueOf(getConfig().getString("notify-type"));
+        notifyType = NotifyType.valueOf(getConfig().getString("notify-type").toUpperCase());
         actionBarMessage = format(getConfig().getString("messages.action-bar-message"));
         npcHitResetSecond = getConfig().getInt("npc-hit-reset-seconds");
         killMessage = format(getConfig().getString("messages.kill-message"));
         logInAfterKillMessage = format(getConfig().getString("messages.log-in-after-kill"));
         combatExpiredMessage = format(getConfig().getString("messages.combat-expired"));
+        blockedCommands = getConfig().getStringList("blocked-commands.blocked");
+        enableBlockedCommands = getConfig().getBoolean("blocked-commands.enabled");
+        blockedCommandMessage = format(getConfig().getString("messages.blocked-command", "&cYou cannot use this command while in combat."));
     }
 
     public static void reload() {

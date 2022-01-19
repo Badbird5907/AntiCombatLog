@@ -8,6 +8,7 @@ import net.badbird5907.anticombatlog.api.events.CombatTagEvent;
 import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
 import net.badbird5907.anticombatlog.commands.ResetTagCommand;
 import net.badbird5907.anticombatlog.hooks.HookManager;
+import net.badbird5907.anticombatlog.listener.BlockedCommandsListener;
 import net.badbird5907.anticombatlog.listener.CombatListener;
 import net.badbird5907.anticombatlog.listener.ConnectionListener;
 import net.badbird5907.anticombatlog.listener.NPCListener;
@@ -145,6 +146,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     public static boolean isCombatTagged(Player player) {
         return getInCombatTag().containsKey(player.getUniqueId());
     }
+
     public static boolean updateAvailable = false;
 
     @Override
@@ -172,7 +174,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             ps.print("{}");
         }
         loadData();
-        Listener[] listeners = new Listener[]{new CombatListener(), new ConnectionListener(), new NPCListener()};
+        Listener[] listeners = new Listener[]{new CombatListener(), new ConnectionListener(), new NPCListener(), new BlockedCommandsListener()};
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener, this);
         }
@@ -236,6 +238,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     private void enableHooks() {
         HookManager.enableAllLoaded();
     }
+
     private void disableHooks() {
         HookManager.disableAll();
     }

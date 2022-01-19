@@ -7,6 +7,10 @@ npc-hit-reset-seconds: 35 #set to -1 to disable
 #Values: BOARD ACTIONBAR BOTH
 notify-type: BOTH
 login-after-combat-log-add-timer-seconds: 5 #seconds to add to the combat timer if you log out and back in while in combat
+blocked-commands:
+  enabled: true
+  blocked:
+    - blockedcommandhere
 messages:
   combat-tagged: '&cYou have been combat tagged. If you log out right now, you will not be safe. Your combat tag expires in &e%1'
   un-combat-tagged: '&aYou have been un-combat tagged! You may safely log out now.'
@@ -15,4 +19,5 @@ messages:
   log-in-after-kill: '&cYou logged out while in combat and was killed by &e%1'
   combat-expired: '&aYour combat tag has expired.'
   kill-message: '&c%1 was killed while combat logged.'
+  blocked-command: '&cYou cannot use that command while in combat.'
 update-check: true
