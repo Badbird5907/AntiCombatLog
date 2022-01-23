@@ -64,7 +64,9 @@ public class CombatListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
-            event.setDeathMessage(StringUtils.format(ConfigValues.getKillMessage(), npc.getName()));
+            CombatNPCTrait trait = npc.getTraitNullable(CombatNPCTrait.class);
+            String name = trait == null ? "UNKNOWN" : trait.getRawName();
+            event.setDeathMessage(StringUtils.format(ConfigValues.getKillMessage(), name));
         }
         if (AntiCombatLog.getKilled().contains(event.getEntity().getUniqueId())) {
             AntiCombatLog.getKilled().remove(event.getEntity().getUniqueId());

@@ -2,7 +2,7 @@ package net.badbird5907.anticombatlog.manager;
 
 import lombok.Getter;
 import net.badbird5907.anticombatlog.AntiCombatLog;
-import net.badbird5907.anticombatlog.utils.CC;
+import net.badbird5907.blib.util.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

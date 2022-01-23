@@ -174,6 +174,7 @@ public class ConfigValues {
     }
 
     public static void reload() {
+        AntiCombatLog.getInstance().setConfig(null);
         load();
     }
 

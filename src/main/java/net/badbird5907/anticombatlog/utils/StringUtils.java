@@ -1,6 +1,7 @@
 package net.badbird5907.anticombatlog.utils;
 
 import lombok.experimental.UtilityClass;
+import net.badbird5907.blib.util.CC;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,21 +11,8 @@ import java.util.stream.Stream;
 
 @UtilityClass
 public class StringUtils {
-    public static String replacePlaceholders(final String str, final String... replace) {
-        if (replace == null)
-            return str;
-        int i = 0;
-        String finalReturn = str;
-        for (String s : replace) {
-            i++;
-            String toReplace = "%" + i;
-            finalReturn = finalReturn.replace(toReplace, s);
-        }
-        return finalReturn;
-    }
-
     public static String format(String in, String... placeholders) {
-        String a = replacePlaceholders(in, placeholders);
+        String a = net.badbird5907.blib.utils.StringUtils.replacePlaceholders(in, placeholders);
         return CC.translate(a);
     }
 

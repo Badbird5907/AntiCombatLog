@@ -185,7 +185,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
                 if (!this.getDescription().getVersion().equalsIgnoreCase(version)) {
                     updateAvailable = true;
                     newVersion = version;
-                    getLogger().info("There a new update available! Download at https://badbird5907.xyz/anticombatlog");
+                    getLogger().info("There a new update available! Download at https://badbird5907.xyz/anticombatlog-latest");
                 }
                 //just dont say anything
 
@@ -193,7 +193,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         }
         getLogger().info("Enabling plugin hooks...");
         enableHooks();
-        getLogger().info(StringUtils.replacePlaceholders("Done initializing AntiCombatLog (took %1 ms.)", (System.currentTimeMillis() - start) + ""));
+        getLogger().info(net.badbird5907.blib.utils.StringUtils.replacePlaceholders("Finished initializing AntiCombatLog (took %1 ms.)", (System.currentTimeMillis() - start) + ""));
     }
 
     @Override
@@ -224,9 +224,18 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         ConfigValues.reload();
     }
 
+    private FileConfiguration config = null;
+
     @Override
     public FileConfiguration getConfig() {
-        return YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/config.yml"));
+        if (config == null) {
+            config = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/config.yml"));
+        }
+        return config;
+    }
+
+    public void setConfig(FileConfiguration config) {
+        this.config = config;
     }
 
     public void clearCombatTag(Player player) {

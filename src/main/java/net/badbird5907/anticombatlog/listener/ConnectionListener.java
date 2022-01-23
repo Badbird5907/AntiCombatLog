@@ -1,7 +1,7 @@
 package net.badbird5907.anticombatlog.listener;
 
 import net.badbird5907.anticombatlog.AntiCombatLog;
-import net.badbird5907.anticombatlog.utils.CC;
+import net.badbird5907.blib.util.CC;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

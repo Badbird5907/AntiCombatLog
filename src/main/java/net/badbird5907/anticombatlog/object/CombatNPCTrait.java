@@ -17,6 +17,7 @@ public class CombatNPCTrait extends Trait {
     private final List<ItemStack> items;
     @Getter
     private final double health;
+    private final String name;
 
     public CombatNPCTrait(String name, float xp, UUID uuid, List<ItemStack> items, double health) {
         super(name);
@@ -24,6 +25,7 @@ public class CombatNPCTrait extends Trait {
         this.uuid = uuid;
         this.items = items;
         this.health = health;
+        this.name = name;
     }
 
     @Override
@@ -36,6 +38,10 @@ public class CombatNPCTrait extends Trait {
         le.setInvulnerable(false);
         le.setNoDamageTicks(0);
         le.setMaximumNoDamageTicks(0);
+    }
+
+    public String getRawName() {
+        return name;
     }
 
     @Override
