@@ -47,106 +47,14 @@ public class ConfigValues {
     @Getter
     private static String blockedCommandMessage = null;
 
+    @Getter
+    private static boolean showPlayerNameOnly = false;
+
+    @Getter
+    private static boolean enableHologram = true;
+
     private static FileConfiguration getConfig() {
         return AntiCombatLog.getInstance().getConfig();
-    }
-
-
-    public static void setBlockedCommands(List<String> blockedCommands) {
-        getConfig().set("blocked-commands.blocked", blockedCommands);
-        saveReload();
-        ConfigValues.blockedCommands = blockedCommands;
-    }
-
-    public static void setEnableBlockedCommands(boolean enableBlockedCommands) {
-        getConfig().set("blocked-commands.enabled", enableBlockedCommands);
-        saveReload();
-        ConfigValues.enableBlockedCommands = enableBlockedCommands;
-    }
-
-    public static void setBlockedCommandMessage(String blockedCommandMessage) {
-        getConfig().set("messages.blocked-command", blockedCommandMessage);
-        saveReload();
-        ConfigValues.blockedCommandMessage = blockedCommandMessage;
-    }
-
-    //this might crash the server
-    public static void setCombatLogSeconds(int combatLogSeconds) {
-        getConfig().set("combat-log-seconds", combatLogSeconds);
-        saveReload();
-        ConfigValues.combatLogSeconds = combatLogSeconds;
-    }
-
-    public static void setCombatTagSeconds(int seconds) {
-        getConfig().set("combat-tag-seconds", seconds);
-        saveReload();
-        ConfigValues.combatTagSeconds = seconds;
-    }
-
-    public static void setNpcCombatLog(boolean bool) {
-        getConfig().set("npc-combat-log", bool);
-        saveReload();
-        ConfigValues.npcCombatLog = bool;
-    }
-
-    public static void setCombatTaggedMessage(String combatTaggedMessage) {
-        getConfig().set("messages.combat-tagged", combatTaggedMessage);
-        saveReload();
-        ConfigValues.combatTaggedMessage = combatTaggedMessage;
-    }
-
-    public static void setUnCombatTaggedMessage(String unCombatTaggedMessage) {
-        getConfig().set("messages.un-combat-tagged", unCombatTaggedMessage);
-        saveReload();
-        ConfigValues.unCombatTaggedMessage = unCombatTaggedMessage;
-    }
-
-    public static void setCombatLoggedMessage(String combatLoggedMessage) {
-        getConfig().set("messages.un-combat-tagged", unCombatTaggedMessage);
-        saveReload();
-        ConfigValues.combatLoggedMessage = combatLoggedMessage;
-    }
-
-    public static void setCombatLoggedMessageRadius(int radius) {
-        getConfig().set("combat-logged-message-radius", radius);
-        saveReload();
-        combatLoggedMessageRadius = radius;
-    }
-
-    public static void setNotifyType(NotifyType notifyType) {
-        getConfig().set("notify-type", notifyType);
-        saveReload();
-        ConfigValues.notifyType = notifyType;
-    }
-
-    public static void setActionBarMessage(String actionBarMessage) {
-        getConfig().set("messages.action-bar-message", actionBarMessage);
-        saveReload();
-        ConfigValues.actionBarMessage = actionBarMessage;
-    }
-
-    public static void setNpcHitResetSecond(int npcHitResetSecond) {
-        getConfig().set("npc-hit-reset-seconds", npcHitResetSecond);
-        saveReload();
-        ConfigValues.npcHitResetSecond = npcHitResetSecond;
-    }
-
-    public static void setLogInAfterKillMessage(String logInAfterKillMessage) {
-        getConfig().set("messages.log-in-after-kill", logInAfterKillMessage);
-        saveReload();
-        ConfigValues.logInAfterKillMessage = logInAfterKillMessage;
-    }
-
-    public static void setCombatExpiredMessage(String combatExpiredMessage) {
-        getConfig().set("messages.combat-expired", combatExpiredMessage);
-        saveReload();
-        ConfigValues.combatExpiredMessage = combatExpiredMessage;
-    }
-
-    public static void setKillMessage(String killMessage) {
-        getConfig().set("messages.kill-messages", killMessage);
-        saveReload();
-        ConfigValues.killMessage = killMessage;
     }
 
     private static void saveReload() {
@@ -171,6 +79,8 @@ public class ConfigValues {
         blockedCommands = getConfig().getStringList("blocked-commands.blocked");
         enableBlockedCommands = getConfig().getBoolean("blocked-commands.enabled");
         blockedCommandMessage = format(getConfig().getString("messages.blocked-command", "&cYou cannot use this command while in combat."));
+        showPlayerNameOnly = getConfig().getBoolean("only-show-player-name",false);
+        enableHologram = getConfig().getBoolean("enable-hologram",true);
     }
 
     public static void reload() {

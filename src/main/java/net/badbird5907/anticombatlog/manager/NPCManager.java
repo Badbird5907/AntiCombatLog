@@ -39,19 +39,27 @@ public class NPCManager {
                 npcs.remove(uuid);
                 return;
             }
-            HoloTrait holoTrait = triplet.getValue1().getTrait(HoloTrait.class);
-            if (holoTrait.getLines().size() == 0)
-                holoTrait.addLine(CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
-            else holoTrait.setLine(0, CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
+            HoloTrait holoTrait = triplet.getValue1().getTraitNullable(HoloTrait.class);
+            if (holoTrait != null) {
+                if (holoTrait.getLines().size() == 0)
+                    holoTrait.addLine(CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
+                else holoTrait.setLine(0, CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
+            }
         });
     }
 
     public static void spawn(Player player, int i) {
-        NPC npc = getNPCRegistry().createNPC(EntityType.PLAYER, CC.RED + CC.B + "DISCONNECTED: " + CC.R + CC.RED + player.getName());
+        NPC npc;
+        if (ConfigValues.isShowPlayerNameOnly()) {
+            npc = getNPCRegistry().createNPC(EntityType.PLAYER, player.getName());
+        }else {
+            npc = getNPCRegistry().createNPC(EntityType.PLAYER, CC.RED + CC.B + "DISCONNECTED: " + CC.R + CC.RED + player.getName());
+        }
 
         npc.addTrait(new CombatNPCTrait("anticombatlog", player.getExp(), player.getUniqueId(), Arrays.asList(player.getInventory().getContents()), player.getHealth()));
         //npc.getTrait(HologramTrait.class).addLine(CC.YELLOW + CC.B + i + " seconds left");
-        npc.addTrait(new HoloTrait(player.getLocation()));
+        if (ConfigValues.isEnableHologram())
+            npc.addTrait(new HoloTrait(player.getLocation()));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, player.getInventory().getBoots());
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, player.getInventory().getLeggings());
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, player.getInventory().getChestplate());
