@@ -45,6 +45,8 @@ public class CombatListener implements Listener {
             try {
                 Projectile proj = (Projectile) event.getDamager();
                 if (proj.getShooter() instanceof Player) {
+                    if (proj.getShooter() == event.getEntity())
+                        return; //player hit himself
                     AntiCombatLog.tag((Player) event.getEntity(), ((Player) proj.getShooter()));
                 }
             } catch (Exception e) {
