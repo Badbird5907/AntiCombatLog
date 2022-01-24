@@ -34,7 +34,8 @@ public class CombatNPCTrait extends Trait {
         getNPC().setProtected(false);
         getNPC().getEntity().setInvulnerable(false);
         LivingEntity le = (LivingEntity) getNPC().getEntity();
-        le.setHealth(health);
+        le.setHealth(Math.max(Math.min(health, 20.0), 0.0));
+        //le.setHealth(health);
         le.setInvulnerable(false);
         le.setNoDamageTicks(0);
         le.setMaximumNoDamageTicks(0);
