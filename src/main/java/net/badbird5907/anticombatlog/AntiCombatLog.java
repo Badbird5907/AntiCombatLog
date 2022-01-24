@@ -72,13 +72,16 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     }
 
     public static void sendCombatLoggedMessage(Player player) {
+        String message = StringUtils.format(ConfigValues.getCombatLoggedMessage(), player.getName(), ConfigValues.getCombatLogSeconds() + "");
         if (ConfigValues.getCombatLoggedMessageRadius() == -1) {
-            Bukkit.broadcastMessage((StringUtils.format(ConfigValues.getCombatLoggedMessage(), player.getName(), ConfigValues.getCombatLogSeconds() + "")));
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                online.sendMessage(message);
+            }
         } else {
             List<Player> players = player.getWorld().getPlayers();
             for (Player value : players) {
                 if (value.getLocation().distance(player.getLocation()) < ConfigValues.getCombatLoggedMessageRadius()) {
-                    value.sendMessage(StringUtils.format(ConfigValues.getCombatLoggedMessage(), player.getName(), ConfigValues.getCombatLogSeconds() + ""));
+                    value.sendMessage(message);
                 }
             }
         }

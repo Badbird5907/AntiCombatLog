@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 @UtilityClass
 public class StringUtils {
     public static String format(String in, String... placeholders) {
+        if (in == null)
+            return null;
         String a = net.badbird5907.blib.utils.StringUtils.replacePlaceholders(in, placeholders);
         return CC.translate(a);
     }
