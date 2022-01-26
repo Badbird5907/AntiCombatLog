@@ -20,7 +20,7 @@ public class CombatNPCTrait extends Trait {
     private final String name;
 
     public CombatNPCTrait(String name, float xp, UUID uuid, List<ItemStack> items, double health) {
-        super(name);
+        super("anticombatlog");
         this.xp = xp;
         this.uuid = uuid;
         this.items = items;
