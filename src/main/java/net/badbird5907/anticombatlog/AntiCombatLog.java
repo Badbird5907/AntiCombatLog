@@ -175,6 +175,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             file.createNewFile();
             PrintStream ps = new PrintStream(file);
             ps.print("{}");
+            ps.close();
         }
         loadData();
         Listener[] listeners = new Listener[]{new CombatListener(), new ConnectionListener(), new NPCListener(), new BlockedCommandsListener()};
