@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class AntiCombatLogCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
+        if (args.length > 0 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("anticombatlog.reload")) {
             long start = System.currentTimeMillis();
             sender.sendMessage(CC.GREEN + "Reloading Config...");
             AntiCombatLog.getInstance().reloadConfig();

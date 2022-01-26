@@ -17,3 +17,6 @@ permissions:
   anticombatlog.admin:
     description: nags about updates
     default: op
+  anticombatlog.reload:
+    description: reloads the config
+    default: op
