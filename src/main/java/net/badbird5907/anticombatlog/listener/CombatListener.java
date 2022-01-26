@@ -19,18 +19,20 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class CombatListener implements Listener {
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (event.isCancelled())
+        if (event.isCancelled() || event.getFinalDamage() <= 0)
             return;
         if (event.getEntity().hasMetadata("NPC") && NPCManager.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) { //is offline npc
             if (!(event.getEntity() instanceof Player))
                 return;
             NPCManager.damaged(event.getEntity());
+            /*
             event.setCancelled(true);
             double damage = event.getDamage();
             LivingEntity le = (LivingEntity) event.getEntity();
             le.damage(damage);
+             */
             return;
         }
         if (event.getEntity() == event.getDamager())
