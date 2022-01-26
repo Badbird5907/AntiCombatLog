@@ -56,7 +56,7 @@ public class NPCManager {
             npc = getNPCRegistry().createNPC(EntityType.PLAYER, CC.RED + CC.B + "DISCONNECTED: " + CC.R + CC.RED + player.getName());
         }
 
-        npc.addTrait(new CombatNPCTrait("anticombatlog", player.getExp(), player.getUniqueId(), Arrays.asList(player.getInventory().getContents()), player.getHealth()));
+        npc.addTrait(new CombatNPCTrait(player.getName(), player.getExp(), player.getUniqueId(), Arrays.asList(player.getInventory().getContents()), player.getHealth()));
         //npc.getTrait(HologramTrait.class).addLine(CC.YELLOW + CC.B + i + " seconds left");
         if (ConfigValues.isEnableHologram())
             npc.addTrait(new HoloTrait(player.getLocation()));
@@ -68,9 +68,8 @@ public class NPCManager {
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.OFF_HAND, player.getInventory().getItemInOffHand());
         npc.getTrait(Inventory.class).setContents(player.getInventory().getContents());
         if (Bukkit.getPluginManager().isPluginEnabled("Floodgate")) {
-            if (!FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId()))
-                ;//to prevent problems with floodgate/geyser players
-            npc.getOrAddTrait(SkinTrait.class).setSkinName(player.getName());
+            if (!FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) //to prevent problems with floodgate/geyser players
+                npc.getOrAddTrait(SkinTrait.class).setSkinName(player.getName());
         } else {
             npc.getOrAddTrait(SkinTrait.class).setSkinName(player.getName());
         }
