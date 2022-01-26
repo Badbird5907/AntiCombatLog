@@ -70,7 +70,24 @@ public class CombatListener implements Listener {
             }
             CombatNPCTrait trait = npc.getTraitNullable(CombatNPCTrait.class);
             String name = trait == null ? "UNKNOWN" : trait.getRawName();
-            event.setDeathMessage(StringUtils.format(ConfigValues.getKillMessage(), name));
+            String message = StringUtils.format(ConfigValues.getKillMessage(), name);
+            if (ConfigValues.isSetDeathMessage())
+                event.setDeathMessage(message);
+            else {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    player.sendMessage(message);
+                }
+            }
+            /*
+            String name1 = ( event.getEntity().getKiller() == null ? "null" :  event.getEntity().getKiller().getName());
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                onlinePlayer.sendMessage("Killer is: " + name1);
+            }
+             */
+
+            if (event.getEntity().getKiller() != null) {
+                AntiCombatLog.getInstance().clearCombatTag(event.getEntity().getKiller());
+            }
         }
         if (AntiCombatLog.getKilled().contains(event.getEntity().getUniqueId())) {
             AntiCombatLog.getKilled().remove(event.getEntity().getUniqueId());

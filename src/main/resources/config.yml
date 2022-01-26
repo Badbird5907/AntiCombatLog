@@ -9,6 +9,7 @@ enable-hologram: true # enable the countdown timer hologram
 #Values: BOARD ACTIONBAR BOTH
 notify-type: BOTH
 login-after-combat-log-add-timer-seconds: 5 #seconds to add to the combat timer if you log out and back in while in combat
+set-death-message: true # only change this if you have a death message plugin and it isn't working
 blocked-commands:
   enabled: true
   blocked:

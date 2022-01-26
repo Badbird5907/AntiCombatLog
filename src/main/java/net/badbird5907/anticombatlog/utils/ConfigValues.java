@@ -48,7 +48,8 @@ public class ConfigValues {
     private static String blockedCommandMessage = null;
 
     @Getter
-    private static boolean showPlayerNameOnly = false;
+    private static boolean showPlayerNameOnly = false,
+    setDeathMessage = true;
 
     @Getter
     private static boolean enableHologram = true;
@@ -81,6 +82,7 @@ public class ConfigValues {
         blockedCommandMessage = format(getConfig().getString("messages.blocked-command", "&cYou cannot use this command while in combat."));
         showPlayerNameOnly = getConfig().getBoolean("only-show-player-name",false);
         enableHologram = getConfig().getBoolean("enable-hologram",true);
+        setDeathMessage = getConfig().getBoolean("set-death-message",true);
     }
 
     public static void reload() {
