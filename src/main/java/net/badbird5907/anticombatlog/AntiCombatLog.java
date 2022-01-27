@@ -16,6 +16,7 @@ import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.runnable.UpdateRunnable;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.anticombatlog.utils.StringUtils;
+import net.badbird5907.anticombatlog.utils.UUIDUtil;
 import net.badbird5907.blib.bLib;
 import net.badbird5907.blib.bstats.Metrics;
 import net.badbird5907.blib.spigotmc.UpdateChecker;
@@ -125,8 +126,8 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     }
 
     public static void join(Player player) {
-        if (toKillOnLogin.containsKey(player.getUniqueId())) {
-            toKillOnLogin.remove(player.getUniqueId());
+        if (UUIDUtil.contains(toKillOnLogin, player.getUniqueId())) {
+            UUIDUtil.remove(toKillOnLogin, player.getUniqueId());
             killed.add(player.getUniqueId());
             player.getInventory().clear();
             player.setHealth(0.0d);
@@ -139,8 +140,8 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             player.setHealth(health);
             NPCManager.despawn(player.getUniqueId());
         }
-        if (freezeTimer.contains(player.getUniqueId())) {
-            freezeTimer.remove(player.getUniqueId());
+        if (UUIDUtil.contains(freezeTimer,player.getUniqueId())) {
+            UUIDUtil.remove(freezeTimer,player.getUniqueId());
             int a = getInCombatTag().getOrDefault(player.getUniqueId(), 0);
             getInCombatTag().put(player.getUniqueId(), a + getInstance().getConfig().getInt("login-after-combat-log-add-timer-seconds", 5));
         }

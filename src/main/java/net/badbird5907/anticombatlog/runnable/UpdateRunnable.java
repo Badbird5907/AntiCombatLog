@@ -7,6 +7,7 @@ import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.manager.ScoreboardManager;
 import net.badbird5907.anticombatlog.object.NotifyType;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
+import net.badbird5907.anticombatlog.utils.UUIDUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -20,7 +21,8 @@ public class UpdateRunnable extends BukkitRunnable {
         NPCManager.update();
         Map<UUID, Integer> stillInCombat = new ConcurrentHashMap<>();
         AntiCombatLog.getInCombatTag().forEach(((uuid, integer) -> {
-            if (AntiCombatLog.getFreezeTimer().contains(uuid)) {
+            if (UUIDUtil.contains(AntiCombatLog.getFreezeTimer(), uuid)) {
+                UUIDUtil.remove(AntiCombatLog.getFreezeTimer(), uuid);
                 stillInCombat.put(uuid, integer);
                 return;
             }
