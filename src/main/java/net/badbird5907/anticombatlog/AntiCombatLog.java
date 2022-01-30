@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import net.badbird5907.anticombatlog.api.events.CombatLogNPCSpawnEvent;
 import net.badbird5907.anticombatlog.api.events.CombatTagEvent;
 import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
 import net.badbird5907.anticombatlog.commands.ResetTagCommand;
@@ -120,7 +121,12 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             player.setHealth(0.0d);
             return;
         }
-        NPCManager.spawn(player, ConfigValues.getCombatLogSeconds());
+        CombatLogNPCSpawnEvent event = new CombatLogNPCSpawnEvent(player.getUniqueId(),ConfigValues.getCombatLogSeconds(),false);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled())
+            return;
+        int seconds = event.isIndefinite() ? -1 : event.getTime();
+        NPCManager.spawn(player, seconds);
         sendCombatLoggedMessage(player);
         freezeTimer.add(player.getUniqueId());
     }

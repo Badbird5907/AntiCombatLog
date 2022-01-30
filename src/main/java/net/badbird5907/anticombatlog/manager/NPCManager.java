@@ -31,19 +31,24 @@ public class NPCManager {
 
     public static void update() {
         npcs.forEach((uuid, triplet) -> {
-            triplet.setValue0(triplet.getValue0() - 1);
-            if (!triplet.getValue1().isSpawned() || triplet.getValue0() <= 0) {
-                if (triplet.getValue1().isSpawned())
-                    triplet.getValue1().despawn();
-                triplet.getValue1().destroy();
-                npcs.remove(uuid);
-                return;
-            }
-            HoloTrait holoTrait = triplet.getValue1().getTraitNullable(HoloTrait.class);
-            if (holoTrait != null) {
-                if (holoTrait.getLines().size() == 0)
-                    holoTrait.addLine(CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
-                else holoTrait.setLine(0, CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
+            if (triplet.getValue1().getTraitNullable(CombatNPCTrait.class) != null) {
+                CombatNPCTrait trait = triplet.getValue1().getTrait(CombatNPCTrait.class);
+                if (!trait.isIndefinite()) {
+                    triplet.setValue0(triplet.getValue0() - 1);
+                    if (!triplet.getValue1().isSpawned() || triplet.getValue0() <= 0) {
+                        if (triplet.getValue1().isSpawned())
+                            triplet.getValue1().despawn();
+                        triplet.getValue1().destroy();
+                        npcs.remove(uuid);
+                        return;
+                    }
+                    HoloTrait holoTrait = triplet.getValue1().getTraitNullable(HoloTrait.class);
+                    if (holoTrait != null) {
+                        if (holoTrait.getLines().size() == 0)
+                            holoTrait.addLine(CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
+                        else holoTrait.setLine(0, CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
+                    }
+                }
             }
         });
     }
@@ -57,6 +62,8 @@ public class NPCManager {
         }
 
         npc.addTrait(new CombatNPCTrait(player.getName(), player.getExp(), player.getUniqueId(), Arrays.asList(player.getInventory().getContents()), player.getHealth()));
+        if (i == -1)
+            npc.getTraitNullable(CombatNPCTrait.class).setIndefinite(true);
         //npc.getTrait(HologramTrait.class).addLine(CC.YELLOW + CC.B + i + " seconds left");
         if (ConfigValues.isEnableHologram())
             npc.addTrait(new HoloTrait(player.getLocation()));

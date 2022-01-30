@@ -1,6 +1,7 @@
 package net.badbird5907.anticombatlog.object;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.citizensnpcs.api.trait.Trait;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +19,9 @@ public class CombatNPCTrait extends Trait {
     @Getter
     private final double health;
     private final String name;
+    @Getter
+    @Setter
+    private boolean indefinite = false;
 
     public CombatNPCTrait(String name, float xp, UUID uuid, List<ItemStack> items, double health) {
         super("anticombatlog");
