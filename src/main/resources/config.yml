@@ -23,4 +23,6 @@ messages:
   combat-expired: '&aYour combat tag has expired.'
   kill-message: '&c%1 was killed while combat logged.'
   blocked-command: '&cYou cannot use that command while in combat.'
+exempt-worlds:
+  - 'world-name-here'
 update-check: true

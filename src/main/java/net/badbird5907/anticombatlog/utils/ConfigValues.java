@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.badbird5907.anticombatlog.utils.StringUtils.format;
@@ -54,6 +55,9 @@ public class ConfigValues {
     @Getter
     private static boolean enableHologram = true;
 
+    @Getter
+    private static List<String> exemptWorlds;
+
     private static FileConfiguration getConfig() {
         return AntiCombatLog.getInstance().getConfig();
     }
@@ -83,6 +87,7 @@ public class ConfigValues {
         showPlayerNameOnly = getConfig().getBoolean("only-show-player-name",false);
         enableHologram = getConfig().getBoolean("enable-hologram",true);
         setDeathMessage = getConfig().getBoolean("set-death-message",true);
+        exemptWorlds = getConfig().getStringList("exempt-worlds");
     }
 
     public static void reload() {
