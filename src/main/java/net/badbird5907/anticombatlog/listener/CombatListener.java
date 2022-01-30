@@ -23,6 +23,8 @@ public class CombatListener implements Listener {
     public void onDamage(EntityDamageByEntityEvent event) {
         if (event.isCancelled() || event.getFinalDamage() <= 0)
             return;
+        if (ConfigValues.getExemptWorlds().contains(event.getEntity().getWorld().getName()))
+            return;
         if (event.getEntity().hasMetadata("NPC") && NPCManager.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) { //is offline npc
             if (!(event.getEntity() instanceof Player))
                 return;
