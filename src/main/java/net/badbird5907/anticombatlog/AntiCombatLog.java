@@ -121,7 +121,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             player.setHealth(0.0d);
             return;
         }
-        CombatLogNPCSpawnEvent event = new CombatLogNPCSpawnEvent(player.getUniqueId(),ConfigValues.getCombatLogSeconds(),false);
+        CombatLogNPCSpawnEvent event = new CombatLogNPCSpawnEvent(player,ConfigValues.getCombatLogSeconds(),false);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled())
             return;
