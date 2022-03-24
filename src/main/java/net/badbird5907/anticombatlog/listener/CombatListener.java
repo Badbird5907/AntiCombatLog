@@ -90,8 +90,7 @@ public class CombatListener implements Listener {
                 AntiCombatLog.getInstance().clearCombatTag(event.getEntity().getKiller());
             }
         }
-        if (AntiCombatLog.getKilled().contains(event.getEntity().getUniqueId())) {
-            AntiCombatLog.getKilled().remove(event.getEntity().getUniqueId());
+        if (AntiCombatLog.getKilled().remove(event.getEntity().getUniqueId())) {
             AntiCombatLog.getToKillOnLogin().remove(event.getEntity().getUniqueId());
             event.getDrops().clear();
             event.setDroppedExp(0);
