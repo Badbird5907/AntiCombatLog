@@ -9,7 +9,6 @@ import net.badbird5907.anticombatlog.utils.StringUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -93,12 +92,14 @@ public class CombatListener implements Listener {
         }
         if (AntiCombatLog.getKilled().contains(event.getEntity().getUniqueId())) {
             AntiCombatLog.getKilled().remove(event.getEntity().getUniqueId());
+            AntiCombatLog.getToKillOnLogin().remove(event.getEntity().getUniqueId());
             event.getDrops().clear();
             event.setDroppedExp(0);
             event.setDeathMessage(null);
             String killer = AntiCombatLog.getToKillOnLogin().get(event.getEntity().getUniqueId());
-            event.getEntity().sendMessage(StringUtils.format(ConfigValues.getLogInAfterKillMessage(), killer));
-            AntiCombatLog.getToKillOnLogin().remove(event.getEntity().getUniqueId());
+            String s = ConfigValues.getLogInAfterKillMessage();
+            if (s != null)
+                event.getEntity().sendMessage(StringUtils.format(s, killer));
             return;
         }
         AntiCombatLog.getInstance().clearCombatTag(event.getEntity());
