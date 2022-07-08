@@ -5,6 +5,7 @@ import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.object.CombatNPCTrait;
 import net.citizensnpcs.api.event.NPCDeathEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -14,7 +15,8 @@ public class NPCListener implements Listener {
     @EventHandler
     public void onNpcDeath(NPCDeathEvent event) {
         event.setDroppedExp((int) event.getNPC().getTrait(CombatNPCTrait.class).getXp());
-        if (!event.getEvent().getEntity().getWorld().isGameRule("keepInventory")) {
+        Boolean value = event.getEvent().getEntity().getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY);
+        if (Boolean.FALSE.equals(value)) {
             if (Bukkit.getPluginManager().isPluginEnabled("AdvancedEnchantments")) {
                 event.getDrops().addAll(event.getNPC().getTrait(CombatNPCTrait.class).getItems().stream()
                         .filter(item -> !AEAPI.hasWhitescroll(item)).collect(Collectors.toList()));
