@@ -18,4 +18,8 @@ public class UnCombatTagEvent extends Event {
     public @NotNull HandlerList getHandlers() {
         return new HandlerList();
     }
+
+    public static HandlerList getHandlerList() {
+        return new HandlerList();
+    }
 }
