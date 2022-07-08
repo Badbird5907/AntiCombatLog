@@ -42,6 +42,19 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <minimizeJar>true</minimizeJar>
+                    <artifactSet>
+                        <excludes></excludes>
+                    </artifactSet>
+                    <relocations>
+                        <relocation>
+                            <pattern>net.badbird5907.blib</pattern>
+                            <shadedPattern>net.badbird5907.anticombatlog.relocate.blib</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+
             </plugin>
         </plugins>
         <resources>
