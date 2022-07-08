@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import net.advancedplugins.ae.api.AEAPI;
 import net.badbird5907.anticombatlog.api.events.CombatLogNPCSpawnEvent;
 import net.badbird5907.anticombatlog.api.events.CombatTagEvent;
 import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
@@ -23,10 +24,12 @@ import net.badbird5907.blib.bstats.Metrics;
 import net.badbird5907.blib.spigotmc.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -137,7 +140,21 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         if (UUIDUtil.contains(toKillOnLogin, player.getUniqueId())) {
             UUIDUtil.remove(toKillOnLogin, player.getUniqueId());
             killed.add(player.getUniqueId());
+            /*
+            List<ItemStack> toKeep = new ArrayList<>();
+            for (ItemStack item : player.getInventory().getContents()) {
+                if (item == null || item.getType() == Material.AIR)
+                    continue;
+                if (Bukkit.getPluginManager().isPluginEnabled("AdvancedEnchantments")) {
+                    if (AEAPI.hasWhitescroll(item)) {
+                        toKeep.add(item);
+                        AEAPI.removeWhitescroll(item);
+                        continue;
+                    }
+                }
+            }
             player.getInventory().clear();
+             */
             player.setHealth(0.0d);
             getInstance().clearCombatTag(player);
             saveData();
