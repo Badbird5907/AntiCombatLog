@@ -1,16 +1,27 @@
 package net.badbird5907.anticombatlog.listener;
 
+import net.advancedplugins.ae.api.AEAPI;
 import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.object.CombatNPCTrait;
 import net.citizensnpcs.api.event.NPCDeathEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.util.stream.Collectors;
 
 public class NPCListener implements Listener {
     @EventHandler
     public void onNpcDeath(NPCDeathEvent event) {
         event.setDroppedExp((int) event.getNPC().getTrait(CombatNPCTrait.class).getXp());
-        event.getDrops().addAll(event.getNPC().getTrait(CombatNPCTrait.class).getItems());
+        if (!event.getEvent().getEntity().getWorld().isGameRule("keepInventory")) {
+            if (Bukkit.getPluginManager().isPluginEnabled("AdvancedEnchantments")) {
+                event.getDrops().addAll(event.getNPC().getTrait(CombatNPCTrait.class).getItems().stream()
+                        .filter(item -> !AEAPI.hasWhitescroll(item)).collect(Collectors.toList()));
+            } else {
+                event.getDrops().addAll(event.getNPC().getTrait(CombatNPCTrait.class).getItems());
+            }
+        }
         //event.getDrops().addAll(Arrays.stream(event.getNPC().getTrait(Equipment.class).getEquipment()).toList());
         String killer;
         if (event.getEvent().getEntity().getKiller() == null)

@@ -5,6 +5,7 @@ api-version: 1.13
 depend: [ Citizens ]
 softdepend:
   - floodgate
+  - AdvancedEnchantments
 commands:
   anticombatlog:
     description: main command
