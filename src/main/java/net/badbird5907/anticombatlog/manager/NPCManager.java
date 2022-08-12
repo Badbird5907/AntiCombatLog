@@ -110,7 +110,7 @@ public class NPCManager {
     }
 
     public static void damaged(Entity entity) {
-        if (ConfigValues.getNpcHitResetSecond() == -1)
+        if (ConfigValues.getNpcHitResetSecond() == -1 || entity == null)
             return;
         npcs.values().forEach(triplet -> {
             if (entity.getUniqueId() == triplet.getValue1().getEntity().getUniqueId()) {
