@@ -25,4 +25,6 @@ messages:
   blocked-command: '&cYou cannot use that command while in combat.'
 exempt-worlds:
   - 'world-name-here'
+disable:
+  fly: false
 update-check: true

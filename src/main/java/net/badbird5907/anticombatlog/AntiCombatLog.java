@@ -115,6 +115,12 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             victim.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(), ConfigValues.getCombatTagSeconds() + ""));
         if (sendMessageAttacker)
             attacker.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(), ConfigValues.getCombatTagSeconds() + ""));
+        if (ConfigValues.isDisableFly()) {
+            victim.setAllowFlight(false);
+            victim.setFlying(false);
+            attacker.setAllowFlight(false);
+            attacker.setFlying(false);
+        }
     }
 
     public static void disconnect(Player player) {

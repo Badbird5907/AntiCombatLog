@@ -56,6 +56,9 @@ public class ConfigValues {
     private static boolean enableHologram = true;
 
     @Getter
+    private static boolean disableFly = false;
+
+    @Getter
     private static List<String> exemptWorlds;
 
     private static FileConfiguration getConfig() {
@@ -88,6 +91,7 @@ public class ConfigValues {
         enableHologram = getConfig().getBoolean("enable-hologram",true);
         setDeathMessage = getConfig().getBoolean("set-death-message",true);
         exemptWorlds = getConfig().getStringList("exempt-worlds");
+        disableFly = getConfig().getBoolean("disable.fly",false);
     }
 
     public static void reload() {
