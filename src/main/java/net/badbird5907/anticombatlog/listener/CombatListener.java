@@ -2,9 +2,10 @@ package net.badbird5907.anticombatlog.listener;
 
 import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.api.events.CombatLogKillEvent;
+import net.badbird5907.anticombatlog.manager.CombatManager;
 import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.object.CombatNPCTrait;
-import net.badbird5907.anticombatlog.utils.ConfigValues;
+import net.badbird5907.anticombatlog.utils.ConfigUtils;
 import net.badbird5907.anticombatlog.utils.StringUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -22,12 +23,12 @@ public class CombatListener implements Listener {
     public void onDamage(EntityDamageByEntityEvent event) {
         if (event.isCancelled() || event.getFinalDamage() <= 0)
             return;
-        if (ConfigValues.getExemptWorlds().contains(event.getEntity().getWorld().getName()))
+        if (ConfigUtils.getInstance().getExemptWorlds().contains(event.getEntity().getWorld().getName()))
             return;
-        if (event.getEntity().hasMetadata("NPC") && NPCManager.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) { //is offline npc
+        if (event.getEntity().hasMetadata("NPC") && NPCManager.getInstance().getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) { //is offline npc
             if (!(event.getEntity() instanceof Player))
                 return;
-            NPCManager.damaged(event.getEntity());
+            NPCManager.getInstance().damaged(event.getEntity());
             /*
             event.setCancelled(true);
             double damage = event.getDamage();
@@ -71,8 +72,8 @@ public class CombatListener implements Listener {
             }
             CombatNPCTrait trait = npc.getTraitNullable(CombatNPCTrait.class);
             String name = trait == null ? "UNKNOWN" : trait.getRawName();
-            String message = StringUtils.format(ConfigValues.getKillMessage(), name);
-            if (ConfigValues.isSetDeathMessage())
+            String message = StringUtils.format(AntiCombatLog.getInstance().getConfig().getString("messages.kill-message"), name);
+            if (AntiCombatLog.getInstance().getConfig().getBoolean("set-death-message", true))
                 event.setDeathMessage(message);
             else {
                 for (Player player : Bukkit.getOnlinePlayers()) {
@@ -91,12 +92,12 @@ public class CombatListener implements Listener {
             }
         }
         if (AntiCombatLog.getKilled().remove(event.getEntity().getUniqueId())) {
-            AntiCombatLog.getToKillOnLogin().remove(event.getEntity().getUniqueId());
+            CombatManager.getInstance().getToKillOnLogin().remove(event.getEntity().getUniqueId());
             event.getDrops().clear();
             event.setDroppedExp(0);
             event.setDeathMessage(null);
-            String killer = AntiCombatLog.getToKillOnLogin().get(event.getEntity().getUniqueId());
-            String s = ConfigValues.getLogInAfterKillMessage();
+            String killer = CombatManager.getInstance().getToKillOnLogin().get(event.getEntity().getUniqueId());
+            String s = AntiCombatLog.getInstance().getConfig().getString("messages.log-in-after-kill", "");
             if (s != null)
                 event.getEntity().sendMessage(StringUtils.format(s, killer));
             return;

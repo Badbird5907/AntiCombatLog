@@ -2,6 +2,7 @@ package net.badbird5907.anticombatlog.listener;
 
 import net.advancedplugins.ae.api.AEAPI;
 import net.badbird5907.anticombatlog.AntiCombatLog;
+import net.badbird5907.anticombatlog.manager.CombatManager;
 import net.badbird5907.anticombatlog.object.CombatNPCTrait;
 import net.citizensnpcs.api.event.NPCDeathEvent;
 import org.bukkit.Bukkit;
@@ -29,7 +30,7 @@ public class NPCListener implements Listener {
         if (event.getEvent().getEntity().getKiller() == null)
             killer = "null"; //https://discord.com/channels/315163488085475337/315625512753954816/916351371970740226 on citizens support discord
         else killer = event.getEvent().getEntity().getKiller().getName();
-        AntiCombatLog.getToKillOnLogin().put(event.getNPC().getTrait(CombatNPCTrait.class).getUuid(), killer);
-        AntiCombatLog.saveData();
+        CombatManager.getInstance().getToKillOnLogin().put(event.getNPC().getTrait(CombatNPCTrait.class).getUuid(), killer);
+        AntiCombatLog.getInstance().saveData();
     }
 }

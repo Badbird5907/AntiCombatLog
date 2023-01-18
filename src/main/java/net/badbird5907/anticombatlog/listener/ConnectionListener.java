@@ -1,6 +1,8 @@
 package net.badbird5907.anticombatlog.listener;
 
 import net.badbird5907.anticombatlog.AntiCombatLog;
+import net.badbird5907.anticombatlog.manager.CombatManager;
+import net.badbird5907.anticombatlog.manager.PlayerManager;
 import net.badbird5907.blib.util.CC;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +13,7 @@ public class ConnectionListener implements Listener {
     @EventHandler
     public void onDisconnect(PlayerQuitEvent event) {
         if (AntiCombatLog.isCombatTagged(event.getPlayer())) {
-            AntiCombatLog.disconnect(event.getPlayer());
+            CombatManager.getInstance().disconnect(event.getPlayer());
         }
     }
 
@@ -22,6 +24,6 @@ public class ConnectionListener implements Listener {
                 event.getPlayer().sendMessage(CC.GREEN + "[AntiCombatLog] There is a update available! Your version is: " + CC.B + AntiCombatLog.getInstance().getDescription().getVersion() + CC.R + CC.GREEN + " and the new version is: " + CC.B + AntiCombatLog.getNewVersion() + CC.R + CC.GREEN + ".\nDownload @ https://badbird5907.xyz/anticombatlog?ref=server");
             }
         }
-        AntiCombatLog.join(event.getPlayer());
+        PlayerManager.join(event.getPlayer());
     }
 }

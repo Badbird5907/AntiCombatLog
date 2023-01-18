@@ -30,7 +30,7 @@ public class ScoreboardManager {
     }
 
     public static void update() {
-        AntiCombatLog.getInCombatTag().forEach((uuid, integer) -> {
+        CombatManager.getInstance().getInCombatTag().forEach((uuid, integer) -> {
             if (Bukkit.getPlayer(uuid) != null) {
                 if (scoreboards.contains(uuid))
                     updateBoard(Bukkit.getPlayer(uuid), integer);
@@ -39,7 +39,7 @@ public class ScoreboardManager {
         });
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!scoreboards.contains(player.getUniqueId())) return;
-            if (!AntiCombatLog.getInCombatTag().containsKey(player.getUniqueId())) return;
+            if (!AntiCombatLog.isCombatTagged(player)) return;
 
             if (player.getScoreboard() != null && player.getScoreboard().getTeam("timerCounter") != null) {
                 player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());

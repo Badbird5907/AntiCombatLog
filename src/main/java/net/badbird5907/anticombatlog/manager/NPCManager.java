@@ -1,10 +1,10 @@
 package net.badbird5907.anticombatlog.manager;
 
 import lombok.Getter;
+import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.object.CombatNPCTrait;
 import net.badbird5907.anticombatlog.object.HoloTrait;
 import net.badbird5907.anticombatlog.object.Triplet;
-import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.blib.util.CC;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.MemoryNPCDataStore;
@@ -27,9 +27,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class NPCManager {
     @Getter
-    private static final Map<UUID, Triplet<Integer, NPC, String>> npcs = new ConcurrentHashMap<>();
+    private static final NPCManager instance = new NPCManager();
 
-    public static void update() {
+    private NPCManager() {
+    }
+
+    @Getter
+    private final Map<UUID, Triplet<Integer, NPC, String>> npcs = new ConcurrentHashMap<>();
+
+    public void update() {
         npcs.forEach((uuid, triplet) -> {
             if (triplet.getValue1().getTraitNullable(CombatNPCTrait.class) != null) {
                 CombatNPCTrait trait = triplet.getValue1().getTrait(CombatNPCTrait.class);
@@ -53,11 +59,11 @@ public class NPCManager {
         });
     }
 
-    public static void spawn(Player player, int i) {
+    public void spawn(Player player, int i) {
         NPC npc;
-        if (ConfigValues.isShowPlayerNameOnly()) {
+        if (AntiCombatLog.getInstance().getConfig().getBoolean("only-show-player-name", false)) {
             npc = getNPCRegistry().createNPC(EntityType.PLAYER, player.getName());
-        }else {
+        } else {
             npc = getNPCRegistry().createNPC(EntityType.PLAYER, CC.RED + CC.B + "DISCONNECTED: " + CC.R + CC.RED + player.getName());
         }
 
@@ -65,7 +71,7 @@ public class NPCManager {
         if (i == -1)
             npc.getTraitNullable(CombatNPCTrait.class).setIndefinite(true);
         //npc.getTrait(HologramTrait.class).addLine(CC.YELLOW + CC.B + i + " seconds left");
-        if (ConfigValues.isEnableHologram())
+        if (AntiCombatLog.getInstance().getConfig().getBoolean("enable-hologram", true))
             npc.addTrait(new HoloTrait(player.getLocation()));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, player.getInventory().getBoots());
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, player.getInventory().getLeggings());
@@ -84,11 +90,11 @@ public class NPCManager {
         npc.spawn(player.getLocation());
     }
 
-    public static boolean isSpawned(UUID player) {
+    public boolean isSpawned(UUID player) {
         return npcs.containsKey(player);
     }
 
-    public static void despawn(UUID player) {
+    public void despawn(UUID player) {
         if (isSpawned(player)) {
             NPC npc = npcs.get(player).getValue1();
             if (npc.isSpawned()) {
@@ -98,7 +104,7 @@ public class NPCManager {
         }
     }
 
-    public static double getHealth(UUID player) {
+    public double getHealth(UUID player) {
         if (isSpawned(player)) {
             NPC npc = npcs.get(player).getValue1();
             if (npc.isSpawned()) {
@@ -109,17 +115,18 @@ public class NPCManager {
         return 20.0;
     }
 
-    public static void damaged(Entity entity) {
-        if (ConfigValues.getNpcHitResetSecond() == -1 || entity == null)
+    public void damaged(Entity entity) {
+        int hitResetSeconds = AntiCombatLog.getInstance().getConfig().getInt("npc-hit-reset-seconds",35);
+        if (hitResetSeconds <= 0 || entity == null)
             return;
         npcs.values().forEach(triplet -> {
             if (entity.getUniqueId() == triplet.getValue1().getEntity().getUniqueId()) {
-                triplet.setValue0(ConfigValues.getNpcHitResetSecond());
+                triplet.setValue0(hitResetSeconds);
             }
         });
     }
 
-    public static NPCRegistry getNPCRegistry() {
+    public NPCRegistry getNPCRegistry() {
         if (CitizensAPI.getNamedNPCRegistry("AntiCombatLog") == null)
             CitizensAPI.createNamedNPCRegistry("AntiCombatLog", new MemoryNPCDataStore());
         return CitizensAPI.getNamedNPCRegistry("AntiCombatLog");
