@@ -9,6 +9,7 @@ import net.badbird5907.anticombatlog.utils.ConfigUtils;
 import net.badbird5907.anticombatlog.utils.StringUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -74,7 +75,7 @@ public class CombatListener implements Listener {
             String name = trait == null ? "UNKNOWN" : trait.getRawName();
             String message = StringUtils.format(AntiCombatLog.getInstance().getConfig().getString("messages.kill-message"), name);
             if (AntiCombatLog.getInstance().getConfig().getBoolean("set-death-message", true))
-                event.setDeathMessage(message);
+                event.deathMessage(Component.text(message));
             else {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.sendMessage(message);
@@ -95,7 +96,7 @@ public class CombatListener implements Listener {
             CombatManager.getInstance().getToKillOnLogin().remove(event.getEntity().getUniqueId());
             event.getDrops().clear();
             event.setDroppedExp(0);
-            event.setDeathMessage(null);
+            event.deathMessage(null);
             String killer = CombatManager.getInstance().getToKillOnLogin().get(event.getEntity().getUniqueId());
             String s = AntiCombatLog.getInstance().getConfig().getString("messages.log-in-after-kill", "");
             if (s != null)
