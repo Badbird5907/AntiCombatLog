@@ -23,7 +23,7 @@ public class ResetTagCommand implements CommandExecutor {
             return true;
         }
         AntiCombatLog.getInstance().clearCombatTag(p);
-        sender.sendMessage(CC.GREEN + "Done!");
+        sender.sendMessage(CC.GREEN + "Done! Tag of " + CC.GOLD + p.getName() + CC.GREEN + " has been reset!");
         return true;
     }
 }
