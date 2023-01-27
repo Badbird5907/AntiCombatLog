@@ -2,7 +2,6 @@ package net.badbird5907.anticombatlog.manager;
 
 import lombok.Getter;
 import net.badbird5907.anticombatlog.object.CombatNPCTrait;
-import net.badbird5907.anticombatlog.object.HoloTrait;
 import net.badbird5907.anticombatlog.object.Triplet;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.blib.util.CC;
@@ -12,6 +11,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Inventory;
+import net.citizensnpcs.trait.HologramTrait;
 import net.citizensnpcs.trait.SkinTrait;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -42,7 +42,7 @@ public class NPCManager {
                         npcs.remove(uuid);
                         return;
                     }
-                    HoloTrait holoTrait = triplet.getValue1().getTraitNullable(HoloTrait.class);
+                    HologramTrait holoTrait = triplet.getValue1().getTraitNullable(HologramTrait.class);
                     if (holoTrait != null) {
                         if (holoTrait.getLines().size() == 0)
                             holoTrait.addLine(CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
@@ -65,8 +65,9 @@ public class NPCManager {
         if (i == -1)
             npc.getTraitNullable(CombatNPCTrait.class).setIndefinite(true);
         //npc.getTrait(HologramTrait.class).addLine(CC.YELLOW + CC.B + i + " seconds left");
-        if (ConfigValues.isEnableHologram())
-            npc.addTrait(new HoloTrait(player.getLocation()));
+        if (ConfigValues.isEnableHologram()) {
+            npc.addTrait(HologramTrait.class);
+        }
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, player.getInventory().getBoots());
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, player.getInventory().getLeggings());
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, player.getInventory().getChestplate());
