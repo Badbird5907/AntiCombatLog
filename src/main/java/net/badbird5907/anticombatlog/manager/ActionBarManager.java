@@ -13,8 +13,9 @@ public class ActionBarManager {
 
     public static void update() {
         AntiCombatLog.getInCombatTag().forEach((uuid, integer) -> {
-            if (Bukkit.getPlayer(uuid) != null) {
-                sendBar(Bukkit.getPlayer(uuid), integer);
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+                sendBar(player, integer);
             }
         });
     }

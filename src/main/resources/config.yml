@@ -5,9 +5,9 @@ combat-tag-seconds: 15
 npc-hit-reset-seconds: 35 #set to -1 to disable
 only-show-player-name: false # set to true to only show player name, instead of the 'DISCONNECTED: name'
 enable-hologram: true # enable the countdown timer hologram
-#Wether to use a scoreboard, actionbar, or both
-#Values: BOARD ACTIONBAR BOTH
-notify-type: BOTH
+# Weather to use a scoreboard, actionbar, bossbar, or all (as of version 2.3 "BOTH" has been removed.)
+# Values: BOARD ACTIONBAR BOSSBAR ALL
+notify-type: ACTIONBAR
 login-after-combat-log-add-timer-seconds: 5 #seconds to add to the combat timer if you log out and back in while in combat
 set-death-message: true # only change this if you have a death message plugin and it isn't working
 blocked-commands:
@@ -19,6 +19,7 @@ messages:
   un-combat-tagged: '&aYou have been un-combat tagged! You may safely log out now.'
   logged-out-combat: '&6%1 &ahas logged out while in combat! You can still kill them for &e%2&a seconds.'
   action-bar-message: '&cYou are in combat for &e%1&c seconds.'
+  boss-bar: '&cYou are in combat for &e%1&c seconds.'
   log-in-after-kill: '&cYou logged out while in combat and was killed by &e%1'
   combat-expired: '&aYour combat tag has expired.'
   kill-message: '&c%1 was killed while combat logged.'

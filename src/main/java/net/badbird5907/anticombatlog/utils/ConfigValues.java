@@ -39,7 +39,9 @@ public class ConfigValues {
     @Getter
     private static String killMessage = null;
     @Getter
-    private static NotifyType notifyType = NotifyType.BOTH;
+    private static String bossBar = null;
+    @Getter
+    private static NotifyType notifyType = NotifyType.ACTIONBAR;
 
     @Getter
     private static List<String> blockedCommands = null;
@@ -49,8 +51,7 @@ public class ConfigValues {
     private static String blockedCommandMessage = null;
 
     @Getter
-    private static boolean showPlayerNameOnly = false,
-    setDeathMessage = true;
+    private static boolean showPlayerNameOnly = false, setDeathMessage = true;
 
     @Getter
     private static boolean enableHologram = true;
@@ -92,6 +93,7 @@ public class ConfigValues {
         setDeathMessage = getConfig().getBoolean("set-death-message",true);
         exemptWorlds = getConfig().getStringList("exempt-worlds");
         disableFly = getConfig().getBoolean("disable.fly",false);
+        bossBar = format(getConfig().getString("messages.boss-bar"));
     }
 
     public static void reload() {
@@ -100,7 +102,15 @@ public class ConfigValues {
     }
 
     public static boolean scoreboardEnabled() {
-        return notifyType == NotifyType.BOTH || notifyType == NotifyType.BOARD;
+        return notifyType == NotifyType.ALL || notifyType == NotifyType.BOARD;
+    }
+
+    public static boolean actionBarEnabled() {
+        return notifyType == NotifyType.ALL || notifyType == NotifyType.ACTIONBAR;
+    }
+
+    public static boolean bossBarEnabled() {
+        return notifyType == NotifyType.ALL || notifyType == NotifyType.BOSSBAR;
     }
 
     public static void enable(JavaPlugin plugin) {
