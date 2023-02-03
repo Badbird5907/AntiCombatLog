@@ -68,13 +68,13 @@ public class NPCManager {
         if (ConfigValues.isEnableHologram()) {
             npc.addTrait(HologramTrait.class);
         }
-        npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, player.getInventory().getBoots());
-        npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, player.getInventory().getLeggings());
-        npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, player.getInventory().getChestplate());
-        npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.HELMET, player.getInventory().getHelmet());
-        npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, player.getInventory().getItemInMainHand()); //TODO multi version
-        npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.OFF_HAND, player.getInventory().getItemInOffHand());
-        npc.getTrait(Inventory.class).setContents(player.getInventory().getContents());
+        npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, player.getInventory().getBoots());
+        npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, player.getInventory().getLeggings());
+        npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, player.getInventory().getChestplate());
+        npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HELMET, player.getInventory().getHelmet());
+        npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, player.getInventory().getItemInMainHand()); //TODO multi version
+        npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.OFF_HAND, player.getInventory().getItemInOffHand());
+        npc.getOrAddTrait(Inventory.class).setContents(player.getInventory().getContents());
         if (Bukkit.getPluginManager().isPluginEnabled("Floodgate")) {
             if (!FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) //to prevent problems with floodgate/geyser players
                 npc.getOrAddTrait(SkinTrait.class).setSkinName(player.getName());
