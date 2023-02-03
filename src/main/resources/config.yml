@@ -5,7 +5,7 @@ combat-tag-seconds: 15
 npc-hit-reset-seconds: 35 #set to -1 to disable
 only-show-player-name: false # set to true to only show player name, instead of the 'DISCONNECTED: name'
 enable-hologram: true # enable the countdown timer hologram
-# Weather to use a scoreboard, actionbar, bossbar, or all (as of version 2.3 "BOTH" has been removed.)
+# Whether to use a scoreboard, actionbar, bossbar, or all (as of version 2.3 "BOTH" has been removed.)
 # Values: BOARD ACTIONBAR BOSSBAR ALL
 notify-type: ACTIONBAR
 login-after-combat-log-add-timer-seconds: 5 #seconds to add to the combat timer if you log out and back in while in combat
