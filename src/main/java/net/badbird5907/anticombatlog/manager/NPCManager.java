@@ -5,6 +5,7 @@ import net.badbird5907.anticombatlog.object.CombatNPCTrait;
 import net.badbird5907.anticombatlog.object.Triplet;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.blib.util.CC;
+import net.badbird5907.blib.util.Logger;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.MemoryNPCDataStore;
 import net.citizensnpcs.api.npc.NPC;
@@ -114,7 +115,11 @@ public class NPCManager {
         if (ConfigValues.getNpcHitResetSecond() == -1 || entity == null)
             return;
         npcs.values().forEach(triplet -> {
-            if (entity.getUniqueId() == triplet.getValue1().getEntity().getUniqueId()) {
+            if (triplet.getValue1().getEntity() == null) {
+                Logger.error("NPC entity is null! " + triplet.getValue1().getName());
+                return;
+            }
+            if (entity.getUniqueId().equals(triplet.getValue1().getUniqueId())) {
                 triplet.setValue0(ConfigValues.getNpcHitResetSecond());
             }
         });
