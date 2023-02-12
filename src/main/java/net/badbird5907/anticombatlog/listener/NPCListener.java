@@ -16,7 +16,7 @@ public class NPCListener implements Listener {
     @EventHandler
     public void onNpcDeath(NPCDeathEvent event) {
         NPC npc = event.getNPC();
-        if (npc != null) {
+        if (npc != null && npc.hasTrait(CombatNPCTrait.class)) {
             event.setDroppedExp((int) npc.getTrait(CombatNPCTrait.class).getXp());
             Boolean value = event.getEvent().getEntity().getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY);
             if (Boolean.FALSE.equals(value)) {
