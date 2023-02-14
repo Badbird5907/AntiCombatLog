@@ -33,8 +33,10 @@ public class UpdateRunnable extends BukkitRunnable {
                 else {
                     UnCombatTagEvent event = new UnCombatTagEvent(Bukkit.getPlayer(uuid));
                     Bukkit.getPluginManager().callEvent(event);
-                    ScoreboardManager.getScoreboards().remove(uuid);
-                    Bukkit.getPlayer(uuid).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+                    if (ConfigValues.scoreboardEnabled()) {
+                        ScoreboardManager.getScoreboards().remove(uuid);
+                        Bukkit.getPlayer(uuid).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+                    }
                     Bukkit.getPlayer(uuid).sendMessage(ConfigValues.getCombatExpiredMessage());
                 }
             }
