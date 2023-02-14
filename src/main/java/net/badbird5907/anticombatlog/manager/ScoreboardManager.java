@@ -2,6 +2,7 @@ package net.badbird5907.anticombatlog.manager;
 
 import lombok.Getter;
 import net.badbird5907.anticombatlog.AntiCombatLog;
+import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.blib.util.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,6 +18,7 @@ public class ScoreboardManager {
     private static final List<UUID> scoreboards = new ArrayList<>();
 
     private static void setScoreBoard(Player player, int i) {
+        if (!ConfigValues.scoreboardEnabled()) return;
         Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective obj = board.registerNewObjective("combatlog", "dummy", CC.RED + CC.B + "Combat Tag");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -30,6 +32,7 @@ public class ScoreboardManager {
     }
 
     public static void update() {
+        if (!ConfigValues.scoreboardEnabled()) return;
         AntiCombatLog.getInCombatTag().forEach((uuid, integer) -> {
             if (Bukkit.getPlayer(uuid) != null) {
                 if (scoreboards.contains(uuid))
@@ -48,6 +51,7 @@ public class ScoreboardManager {
         }
     }
     private static void updateBoard(Player player, int i) {
+        if (!ConfigValues.scoreboardEnabled()) return;
         if (i <= 0) {
             player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
             return;

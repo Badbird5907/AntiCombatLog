@@ -109,4 +109,8 @@ public class ConfigValues {
         }
         load();
     }
+
+    public static boolean actionBarEnabled() {
+        return notifyType == NotifyType.BOTH || notifyType == NotifyType.ACTIONBAR;
+    }
 }

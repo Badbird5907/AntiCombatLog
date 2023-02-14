@@ -40,9 +40,9 @@ public class UpdateRunnable extends BukkitRunnable {
             }
         }));
         AntiCombatLog.setInCombatTag(stillInCombat);
-        if (ConfigValues.getNotifyType() == NotifyType.BOARD || ConfigValues.getNotifyType() == NotifyType.BOTH)
+        if (ConfigValues.scoreboardEnabled())
             ScoreboardManager.update();
-        if (ConfigValues.getNotifyType() == NotifyType.ACTIONBAR || ConfigValues.getNotifyType() == NotifyType.BOTH)
+        if (ConfigValues.actionBarEnabled())
             ActionBarManager.update();
     }
 }
