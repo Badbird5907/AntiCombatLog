@@ -59,6 +59,9 @@ public class ConfigValues {
     private static boolean disableFly = false;
 
     @Getter
+    private static boolean tagOnPearl = false;
+
+    @Getter
     private static List<String> exemptWorlds;
 
     private static FileConfiguration getConfig() {
@@ -92,6 +95,7 @@ public class ConfigValues {
         setDeathMessage = getConfig().getBoolean("set-death-message",true);
         exemptWorlds = getConfig().getStringList("exempt-worlds");
         disableFly = getConfig().getBoolean("disable.fly",false);
+        tagOnPearl = getConfig().getBoolean("tag-on-enderpearl",true);
     }
 
     public static void reload() {
