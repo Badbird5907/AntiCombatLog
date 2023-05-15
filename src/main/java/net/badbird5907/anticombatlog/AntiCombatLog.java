@@ -122,6 +122,26 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             attacker.setFlying(false);
         }
     }
+    public static void tag(Player player) {
+        if (player.getGameMode() == GameMode.CREATIVE)
+            return;
+        CombatTagEvent event = new CombatTagEvent(player);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled())
+            return;
+        boolean sendMessage = true;
+        if (inCombatTag.containsKey(player.getUniqueId())) {
+            inCombatTag.remove(player.getUniqueId());
+            sendMessage = false;
+        }
+        inCombatTag.put(player.getUniqueId(), ConfigValues.getCombatTagSeconds());
+        if (sendMessage)
+            player.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(), ConfigValues.getCombatTagSeconds() + ""));
+        if (ConfigValues.isDisableFly()) {
+            player.setAllowFlight(false);
+            player.setFlying(false);
+        }
+    }
 
     public static void disconnect(Player player) {
         if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE)

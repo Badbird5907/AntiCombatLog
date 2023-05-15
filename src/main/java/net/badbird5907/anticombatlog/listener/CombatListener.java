@@ -16,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class CombatListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
@@ -104,5 +105,14 @@ public class CombatListener implements Listener {
             return;
         }
         AntiCombatLog.getInstance().clearCombatTag(event.getEntity());
+    }
+
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent event) {
+        if (event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {
+            if (ConfigValues.isTagOnPearl()) {
+                AntiCombatLog.tag(event.getPlayer(), event.getPlayer());
+            }
+        }
     }
 }

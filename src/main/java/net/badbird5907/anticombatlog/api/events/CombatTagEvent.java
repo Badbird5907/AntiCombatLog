@@ -8,12 +8,20 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-@RequiredArgsConstructor
 @Getter
 public class CombatTagEvent extends Event implements Cancellable {
     private final Player victim;
     private final Player attacker;
     boolean cancelled;
+
+    public CombatTagEvent(Player victim) {
+        attacker = null;
+        this.victim = victim;
+    }
+    public CombatTagEvent(Player victim, Player attacker) {
+        this.victim = victim;
+        this.attacker = attacker;
+    }
 
     @Override
     public boolean isCancelled() {

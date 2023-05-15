@@ -10,6 +10,7 @@ enable-hologram: true # enable the countdown timer hologram
 notify-type: BOTH
 login-after-combat-log-add-timer-seconds: 5 # seconds to add to the combat timer if you log out and back in while in combat
 set-death-message: true # only change this if you have a death message plugin and it isn't working
+tag-on-enderpearl: true # this option will combat tag players if they throw a pearl
 blocked-commands:
   enabled: true
   blocked:
