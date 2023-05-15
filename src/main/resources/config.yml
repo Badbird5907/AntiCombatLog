@@ -28,4 +28,8 @@ exempt-worlds:
   - 'world-name-here'
 disable:
   fly: false
+hooks:
+  duels:
+    enabled: false
+    dont-combat-tag: true
 update-check: true

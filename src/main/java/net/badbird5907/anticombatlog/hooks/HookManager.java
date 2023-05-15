@@ -1,15 +1,45 @@
 package net.badbird5907.anticombatlog.hooks;
 
 import net.badbird5907.anticombatlog.AntiCombatLog;
+import net.badbird5907.anticombatlog.hooks.impl.DuelsHook;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class HookManager {
+    private static DuelsHook[] allHooks = new DuelsHook[] {
+            new DuelsHook()
+    };
     private static Set<IHook> hooks = new HashSet<>();
+
+    public static void init() {
+        for (DuelsHook hook : allHooks) {
+            // check if hooks.name.enabled is true in config
+            if (!AntiCombatLog.getInstance().getConfig().getBoolean("hooks." + hook.getConfigKey() + ".enabled")) {
+                continue;
+            }
+            String[] deps = hook.getDependencies();
+            boolean found = true;
+            for (String dep : deps) {
+                if (!Bukkit.getServer().getPluginManager().isPluginEnabled(dep)) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) {
+                load(hook);
+            }
+        }
+    }
+
     public static void load(IHook hook) {
         hook.enable(AntiCombatLog.getInstance());
         hooks.add(hook);
+        if (hook instanceof Listener) {
+            Bukkit.getServer().getPluginManager().registerEvents((Listener) hook, AntiCombatLog.getInstance());
+        }
     }
 
     public static void enable(Class<? extends IHook> hook) {

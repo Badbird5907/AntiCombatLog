@@ -82,6 +82,10 @@
             <id>opencollab-snapshot</id>
             <url>https://repo.opencollab.dev/maven-snapshots/</url>
         </repository>
+        <repository>
+            <id>jitpack-repo</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -120,6 +124,12 @@
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/AEAPI.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Realizedd.Duels</groupId>
+            <artifactId>duels-api</artifactId>
+            <version>3.5.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

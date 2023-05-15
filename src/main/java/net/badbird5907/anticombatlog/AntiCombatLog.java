@@ -234,6 +234,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener, this);
         }
+        HookManager.init();
         updateRunnable = new UpdateRunnable();
         updateRunnable.runTaskTimer(this, 40L, 20L);
         if (getConfig().getBoolean("update-check")) {
