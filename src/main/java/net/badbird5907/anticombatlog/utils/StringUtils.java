@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 @UtilityClass
 public class StringUtils {
     public static String format(String in, String... placeholders) {
-        if (in == null)
+        if (in == null || in.isEmpty())
             return null;
         String a = replacePlaceholders(in, placeholders);
         return CC.translate(a);

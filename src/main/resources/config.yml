@@ -2,13 +2,13 @@ combat-log-seconds: 15
 npc-combat-log: true # set to true to spawn a npc - false to insta kill
 combat-logged-message-radius: -1 # set to -1 to broadcast to everyone
 combat-tag-seconds: 15
-npc-hit-reset-seconds: 35 #set to -1 to disable
+npc-hit-reset-seconds: 35 # set to -1 to disable
 only-show-player-name: false # set to true to only show player name, instead of the 'DISCONNECTED: name'
 enable-hologram: true # enable the countdown timer hologram
-#Wether to use a scoreboard, actionbar, or both
-#Values: BOARD ACTIONBAR BOTH
+# Wether to use a scoreboard, actionbar, or both
+# Values: BOARD ACTIONBAR BOTH NONE
 notify-type: BOTH
-login-after-combat-log-add-timer-seconds: 5 #seconds to add to the combat timer if you log out and back in while in combat
+login-after-combat-log-add-timer-seconds: 5 # seconds to add to the combat timer if you log out and back in while in combat
 set-death-message: true # only change this if you have a death message plugin and it isn't working
 blocked-commands:
   enabled: true

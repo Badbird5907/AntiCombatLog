@@ -8,7 +8,9 @@ import org.bukkit.entity.Player;
 
 public class ActionBarManager {
     public static void sendBar(Player player, int seconds) {
-        player.sendActionBar(StringUtils.format(ConfigValues.getActionBarMessage(), seconds + ""));
+        String str = StringUtils.format(ConfigValues.getActionBarMessage(), seconds + "");
+        if (str == null) return;
+        player.sendActionBar(str);
     }
 
     public static void update() {

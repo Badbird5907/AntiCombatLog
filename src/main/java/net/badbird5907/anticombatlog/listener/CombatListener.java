@@ -75,8 +75,10 @@ public class CombatListener implements Listener {
             if (ConfigValues.isSetDeathMessage())
                 event.setDeathMessage(message);
             else {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(message);
+                if (message != null) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage(message);
+                    }
                 }
             }
             /*
