@@ -37,7 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.*;
 
-public final class AntiCombatLog extends JavaPlugin { //TODO config editor in game
+public final class  AntiCombatLog extends JavaPlugin { //TODO config editor in game
     @Getter
     @Setter
     private static Map<UUID, Integer> inCombatTag = new HashMap<>(); //might do async idk
@@ -141,6 +141,23 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             player.setAllowFlight(false);
             player.setFlying(false);
         }
+    }
+
+    public static void tagSingle(Player victim) {
+        if (victim.getGameMode() == GameMode.CREATIVE)
+            return;
+        CombatTagEvent event = new CombatTagEvent(victim, victim);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled())
+            return;
+        boolean sendMessageVictim = true;
+        if (inCombatTag.containsKey(victim.getUniqueId())) {
+            inCombatTag.remove(victim.getUniqueId());
+            sendMessageVictim = false;
+        }
+        inCombatTag.put(victim.getUniqueId(), ConfigValues.getCombatTagSeconds());
+        if (sendMessageVictim)
+            victim.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(), ConfigValues.getCombatTagSeconds() + ""));
     }
 
     public static void disconnect(Player player) {
