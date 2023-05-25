@@ -12,6 +12,7 @@ login-after-combat-log-add-timer-seconds: 5 # seconds to add to the combat timer
 set-death-message: true # only change this if you have a death message plugin and it isn't working
 tag-on-enderpearl: true # this option will combat tag players if they throw a pearl
 elytra-disable: false # Disable elytra gliding & boost on combat tag
+kill-after-timer-expires: false # Kill players after the combat tag timer expires, if they don't rejoin
 blocked-commands:
   enabled: true
   blocked:
