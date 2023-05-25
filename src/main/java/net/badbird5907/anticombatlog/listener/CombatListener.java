@@ -1,5 +1,6 @@
 package net.badbird5907.anticombatlog.listener;
 
+import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.api.events.CombatLogKillEvent;
 import net.badbird5907.anticombatlog.manager.NPCManager;
@@ -15,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -112,6 +114,24 @@ public class CombatListener implements Listener {
         if (event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {
             if (ConfigValues.isTagOnPearl()) {
                 AntiCombatLog.tag(event.getPlayer(), event.getPlayer());
+            }
+        }
+    }
+
+    @EventHandler
+    public void onElytra(PlayerElytraBoostEvent event) {
+        if (AntiCombatLog.isCombatTagged(event.getPlayer())) {
+            if (AntiCombatLog.getInstance().getConfig().getBoolean("elytra-disable", false)) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onGlide(EntityToggleGlideEvent event) {
+        if (event.getEntity() instanceof Player && AntiCombatLog.isCombatTagged((Player) event.getEntity())) {
+            if (AntiCombatLog.getInstance().getConfig().getBoolean("elytra-disable", false)) {
+                event.setCancelled(true);
             }
         }
     }

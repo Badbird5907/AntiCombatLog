@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class HookManager {
-    private static DuelsHook[] allHooks = new DuelsHook[] {
+    private static IHook[] allHooks = new IHook[] {
             new DuelsHook()
     };
     private static Set<IHook> hooks = new HashSet<>();
 
     public static void init() {
-        for (DuelsHook hook : allHooks) {
+        for (IHook hook : allHooks) {
             // check if hooks.name.enabled is true in config
             if (!AntiCombatLog.getInstance().getConfig().getBoolean("hooks." + hook.getConfigKey() + ".enabled")) {
                 continue;
