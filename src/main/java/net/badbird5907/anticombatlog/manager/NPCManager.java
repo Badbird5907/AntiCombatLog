@@ -1,6 +1,7 @@
 package net.badbird5907.anticombatlog.manager;
 
 import lombok.Getter;
+import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.object.CombatNPCTrait;
 import net.badbird5907.anticombatlog.object.Triplet;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
@@ -33,10 +34,17 @@ public class NPCManager {
     public static void update() {
         npcs.forEach((uuid, triplet) -> {
             if (triplet.getValue1().getTraitNullable(CombatNPCTrait.class) != null) {
-                CombatNPCTrait trait = triplet.getValue1().getTrait(CombatNPCTrait.class);
-                if (!trait.isIndefinite()) {
+                CombatNPCTrait trait = triplet.getValue1().getTraitNullable(CombatNPCTrait.class);
+                if (trait != null && !trait.isIndefinite()) {
                     triplet.setValue0(triplet.getValue0() - 1);
-                    if (!triplet.getValue1().isSpawned() || triplet.getValue0() <= 0) {
+                    if (!triplet.getValue1().isSpawned() || triplet.getValue0() <= 0) { // if it is not spawned or the time is up
+                        NPC npc  = triplet.getValue1();
+                        if (AntiCombatLog.getInstance().getConfig().getBoolean("kill-after-timer-expires", false) && npc.getEntity() != null && npc.getEntity().isValid()) { // still alive
+                            LivingEntity entity = (LivingEntity) npc.getEntity();
+                            entity.setHealth(0);
+                            return;
+                        }
+                        // destroy
                         if (triplet.getValue1().isSpawned())
                             triplet.getValue1().despawn();
                         triplet.getValue1().destroy();

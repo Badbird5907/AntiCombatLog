@@ -6,6 +6,7 @@ depend: [ Citizens ]
 softdepend:
   - floodgate
   - AdvancedEnchantments
+  - Duels
 commands:
   anticombatlog:
     description: main command

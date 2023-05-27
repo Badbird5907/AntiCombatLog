@@ -1,13 +1,10 @@
-package net.badbird5907.anticombatlog.runnable;
+package net.badbird5907.anticombatlog.utils;
 
 import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.api.events.UnCombatTagEvent;
 import net.badbird5907.anticombatlog.manager.ActionBarManager;
 import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.manager.ScoreboardManager;
-import net.badbird5907.anticombatlog.object.NotifyType;
-import net.badbird5907.anticombatlog.utils.ConfigValues;
-import net.badbird5907.anticombatlog.utils.UUIDUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,8 +18,8 @@ public class UpdateRunnable extends BukkitRunnable {
         NPCManager.update();
         Map<UUID, Integer> stillInCombat = new ConcurrentHashMap<>();
         AntiCombatLog.getInCombatTag().forEach(((uuid, integer) -> {
-            if (UUIDUtil.contains(AntiCombatLog.getFreezeTimer(), uuid)) {
-                UUIDUtil.remove(AntiCombatLog.getFreezeTimer(), uuid);
+            if (AntiCombatLog.getFreezeTimer().contains(uuid)) {
+                AntiCombatLog.getFreezeTimer().remove(uuid);
                 stillInCombat.put(uuid, integer);
                 return;
             }

@@ -5,12 +5,14 @@ combat-tag-seconds: 15
 npc-hit-reset-seconds: 35 # set to -1 to disable
 only-show-player-name: false # set to true to only show player name, instead of the 'DISCONNECTED: name'
 enable-hologram: true # enable the countdown timer hologram
-# Wether to use a scoreboard, actionbar, or both
+# Weather to use a scoreboard, actionbar, or both
 # Values: BOARD ACTIONBAR BOTH NONE
 notify-type: BOTH
 login-after-combat-log-add-timer-seconds: 5 # seconds to add to the combat timer if you log out and back in while in combat
 set-death-message: true # only change this if you have a death message plugin and it isn't working
 tag-on-enderpearl: true # this option will combat tag players if they throw a pearl
+elytra-disable: false # Disable elytra gliding & boost on combat tag
+kill-after-timer-expires: false # Kill players after the combat tag timer expires, if they don't rejoin
 blocked-commands:
   enabled: true
   blocked:
@@ -28,4 +30,8 @@ exempt-worlds:
   - 'world-name-here'
 disable:
   fly: false
+hooks:
+  duels:
+    enabled: false
+    dont-combat-tag: true
 update-check: true

@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.advancedplugins.ae.api.AEAPI;
 import net.badbird5907.anticombatlog.api.events.CombatLogNPCSpawnEvent;
 import net.badbird5907.anticombatlog.api.events.CombatTagEvent;
 import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
@@ -15,21 +14,18 @@ import net.badbird5907.anticombatlog.listener.CombatListener;
 import net.badbird5907.anticombatlog.listener.ConnectionListener;
 import net.badbird5907.anticombatlog.listener.NPCListener;
 import net.badbird5907.anticombatlog.manager.NPCManager;
-import net.badbird5907.anticombatlog.runnable.UpdateRunnable;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.anticombatlog.utils.StringUtils;
-import net.badbird5907.anticombatlog.utils.UUIDUtil;
+import net.badbird5907.anticombatlog.utils.UpdateRunnable;
 import net.badbird5907.blib.bLib;
 import net.badbird5907.blib.bstats.Metrics;
 import net.badbird5907.blib.spigotmc.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -122,6 +118,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             attacker.setFlying(false);
         }
     }
+
     public static void tag(Player player) {
         if (player.getGameMode() == GameMode.CREATIVE)
             return;
@@ -152,7 +149,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         }
         if (ConfigValues.getExemptWorlds().contains(player.getWorld().getName()))
             return;
-        CombatLogNPCSpawnEvent event = new CombatLogNPCSpawnEvent(player,ConfigValues.getCombatLogSeconds(),false);
+        CombatLogNPCSpawnEvent event = new CombatLogNPCSpawnEvent(player, ConfigValues.getCombatLogSeconds(), false);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled())
             return;
@@ -163,8 +160,8 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     }
 
     public static void join(Player player) {
-        if (UUIDUtil.contains(toKillOnLogin, player.getUniqueId())) {
-            UUIDUtil.remove(toKillOnLogin, player.getUniqueId());
+        if (toKillOnLogin.containsKey(player.getUniqueId())) {
+            toKillOnLogin.remove(player.getUniqueId());
             killed.add(player.getUniqueId());
             /*
             List<ItemStack> toKeep = new ArrayList<>();
@@ -191,8 +188,8 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             player.setHealth(health);
             NPCManager.despawn(player.getUniqueId());
         }
-        if (UUIDUtil.contains(freezeTimer,player.getUniqueId())) {
-            UUIDUtil.remove(freezeTimer,player.getUniqueId());
+        if (freezeTimer.contains(player.getUniqueId())) {
+            freezeTimer.remove(player.getUniqueId());
             int a = getInCombatTag().getOrDefault(player.getUniqueId(), 0);
             getInCombatTag().put(player.getUniqueId(), a + getInstance().getConfig().getInt("login-after-combat-log-add-timer-seconds", 5));
         }
@@ -220,8 +217,8 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         Metrics metrics = new Metrics(this, 12150);
 
         ConfigValues.enable(this);
-        getCommand("anticombatlog").setExecutor(new AntiCombatLogCommand());
-        getCommand("resettag").setExecutor(new ResetTagCommand());
+        Objects.requireNonNull(getCommand("anticombatlog")).setExecutor(new AntiCombatLogCommand());
+        Objects.requireNonNull(getCommand("resettag")).setExecutor(new ResetTagCommand());
         file = new File(getInstance().getDataFolder() + "/data.json");
         if (!file.exists()) {
             file.createNewFile();
@@ -234,6 +231,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener, this);
         }
+        HookManager.init();
         updateRunnable = new UpdateRunnable();
         updateRunnable.runTaskTimer(this, 40L, 20L);
         if (getConfig().getBoolean("update-check")) {

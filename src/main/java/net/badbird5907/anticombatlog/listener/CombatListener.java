@@ -1,5 +1,6 @@
 package net.badbird5907.anticombatlog.listener;
 
+import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.api.events.CombatLogKillEvent;
 import net.badbird5907.anticombatlog.manager.NPCManager;
@@ -15,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -64,7 +66,7 @@ public class CombatListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         if (event.getEntity().hasMetadata("NPC") && CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) {
             NPC npc = CitizensAPI.getNPCRegistry().getNPC(event.getEntity());
-            CombatLogKillEvent event1 = new CombatLogKillEvent(CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).getTrait(CombatNPCTrait.class).getUuid(), event);
+            CombatLogKillEvent event1 = new CombatLogKillEvent(CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).getTraitNullable(CombatNPCTrait.class).getUuid(), event);
             Bukkit.getPluginManager().callEvent(event1);
             if (event1.isCancelled()) {
                 event.setCancelled(true);
@@ -82,13 +84,6 @@ public class CombatListener implements Listener {
                     }
                 }
             }
-            /*
-            String name1 = ( event.getEntity().getKiller() == null ? "null" :  event.getEntity().getKiller().getName());
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                onlinePlayer.sendMessage("Killer is: " + name1);
-            }
-             */
-
             if (event.getEntity().getKiller() != null) {
                 AntiCombatLog.getInstance().clearCombatTag(event.getEntity().getKiller());
             }
@@ -112,6 +107,24 @@ public class CombatListener implements Listener {
         if (event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {
             if (ConfigValues.isTagOnPearl()) {
                 AntiCombatLog.tag(event.getPlayer(), event.getPlayer());
+            }
+        }
+    }
+
+    @EventHandler
+    public void onElytra(PlayerElytraBoostEvent event) {
+        if (AntiCombatLog.isCombatTagged(event.getPlayer())) {
+            if (AntiCombatLog.getInstance().getConfig().getBoolean("elytra-disable", false)) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onGlide(EntityToggleGlideEvent event) {
+        if (event.getEntity() instanceof Player && AntiCombatLog.isCombatTagged((Player) event.getEntity())) {
+            if (AntiCombatLog.getInstance().getConfig().getBoolean("elytra-disable", false)) {
+                event.setCancelled(true);
             }
         }
     }

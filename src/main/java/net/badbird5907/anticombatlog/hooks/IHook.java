@@ -8,4 +8,6 @@ public interface IHook {
     void enable(AntiCombatLog plugin);
     void disable(AntiCombatLog plugin);
     String getName();
+    String[] getDependencies();
+    String getConfigKey();
 }
