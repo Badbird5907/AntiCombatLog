@@ -122,7 +122,7 @@ public class CombatListener implements Listener {
 
     @EventHandler
     public void onGlide(EntityToggleGlideEvent event) {
-        if (event.getEntity() instanceof Player && AntiCombatLog.isCombatTagged((Player) event.getEntity())) {
+        if (event.isGliding() && event.getEntity() instanceof Player && AntiCombatLog.isCombatTagged((Player) event.getEntity())) {
             if (AntiCombatLog.getInstance().getConfig().getBoolean("elytra-disable", false)) {
                 event.setCancelled(true);
             }
