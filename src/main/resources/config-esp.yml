@@ -18,14 +18,14 @@ blocked-commands:
   blocked:
     - blockedcommandhere
 messages:
-  combat-tagged: '&cYou have been combat tagged. If you log out right now, you will not be safe. Your combat tag expires in &e%1'
-  un-combat-tagged: '&aYou have been un-combat tagged! You may safely log out now.'
-  logged-out-combat: '&6%1 &ahas logged out while in combat! You can still kill them for &e%2&a seconds.'
-  action-bar-message: '&cYou are in combat for &e%1&c seconds.'
-  log-in-after-kill: '&cYou were killed while you were logged out in combat.'
-  combat-expired: '&aYour combat tag has expired.'
-  kill-message: '&c%1 was killed while combat logged.'
-  blocked-command: '&cYou cannot use that command while in combat.'
+  combat-tagged: '&c¡Te acaban de atacar! Si te desconectas, no estarás a salvo. Estarás fuera de combate en &e%1'
+  un-combat-tagged: '&a¡Ya no estás en combate! Te puedes desconectar sin problema.'
+  logged-out-combat: '&6%1 &ase ha desconectado en combate. Puedes matarlo durante los próximos &e%2&a segundos.'
+  action-bar-message: '&cEstarás en combate durante los próximos &e%1&c segundos.'
+  log-in-after-kill: '&cFuiste asesinado dado que te desconectaste estando en combate.'
+  combat-expired: '&aYa no estás en combate.'
+  kill-message: '&c%1 murió en combate.'
+  blocked-command: '&cNo puedes usar este comando mientras estás en combate.'
 exempt-worlds:
   - 'world-name-here'
 disable:
