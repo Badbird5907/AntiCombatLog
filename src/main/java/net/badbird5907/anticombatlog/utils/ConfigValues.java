@@ -85,7 +85,7 @@ public class ConfigValues {
         actionBarMessage = format(getConfig().getString("messages.action-bar-message"));
         npcHitResetSecond = getConfig().getInt("npc-hit-reset-seconds");
         killMessage = format(getConfig().getString("messages.kill-message"));
-        logInAfterKillMessage = format(getConfig().getString("messages.log-in-after-kill","&cYou logged out while in combat and was killed by &e%1"));
+        logInAfterKillMessage = format(getConfig().getString("messages.log-in-after-kill","&cYou logged out while in combat and was killed"));
         combatExpiredMessage = format(getConfig().getString("messages.combat-expired"));
         blockedCommands = getConfig().getStringList("blocked-commands.blocked");
         enableBlockedCommands = getConfig().getBoolean("blocked-commands.enabled");

@@ -22,7 +22,7 @@ messages:
   un-combat-tagged: '&aYou have been un-combat tagged! You may safely log out now.'
   logged-out-combat: '&6%1 &ahas logged out while in combat! You can still kill them for &e%2&a seconds.'
   action-bar-message: '&cYou are in combat for &e%1&c seconds.'
-  log-in-after-kill: '&cYou logged out while in combat and was killed by &e%1'
+  log-in-after-kill: '&cYou logged out while in combat and was killed.'
   combat-expired: '&aYour combat tag has expired.'
   kill-message: '&c%1 was killed while combat logged.'
   blocked-command: '&cYou cannot use that command while in combat.'
