@@ -34,7 +34,8 @@ public class UpdateRunnable extends BukkitRunnable {
                         ScoreboardManager.getScoreboards().remove(uuid);
                         Bukkit.getPlayer(uuid).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
                     }
-                    Bukkit.getPlayer(uuid).sendMessage(ConfigValues.getCombatExpiredMessage());
+                    if (ConfigValues.getCombatExpiredMessage() != null)
+                        Bukkit.getPlayer(uuid).sendMessage(ConfigValues.getCombatExpiredMessage());
                 }
             }
         }));

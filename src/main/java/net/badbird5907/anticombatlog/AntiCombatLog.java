@@ -76,6 +76,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         String msg = ConfigValues.getCombatLoggedMessage();
         if (msg == null) return;
         String message = StringUtils.format(msg, player.getName(), ConfigValues.getCombatLogSeconds() + "");
+        if (message == null) return;
         if (ConfigValues.getCombatLoggedMessageRadius() == -1) {
             for (Player online : Bukkit.getOnlinePlayers()) {
                 online.sendMessage(message);
@@ -109,10 +110,12 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         }
         inCombatTag.put(victim.getUniqueId(), ConfigValues.getCombatTagSeconds());
         inCombatTag.put(attacker.getUniqueId(), ConfigValues.getCombatTagSeconds());
-        if (sendMessageVictim)
-            victim.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(), ConfigValues.getCombatTagSeconds() + ""));
-        if (sendMessageAttacker)
-            attacker.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(), ConfigValues.getCombatTagSeconds() + ""));
+        if (ConfigValues.getCombatTaggedMessage() != null) {
+            if (sendMessageVictim)
+                victim.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(), ConfigValues.getCombatTagSeconds() + ""));
+            if (sendMessageAttacker)
+                attacker.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(), ConfigValues.getCombatTagSeconds() + ""));
+        }
         if (ConfigValues.isDisableFly()) {
             victim.setAllowFlight(false);
             victim.setFlying(false);
@@ -134,7 +137,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             sendMessage = false;
         }
         inCombatTag.put(player.getUniqueId(), ConfigValues.getCombatTagSeconds());
-        if (sendMessage)
+        if (sendMessage && ConfigValues.getCombatTaggedMessage() != null)
             player.sendMessage(StringUtils.format(ConfigValues.getCombatTaggedMessage(), ConfigValues.getCombatTagSeconds() + ""));
         if (ConfigValues.isDisableFly()) {
             player.setAllowFlight(false);
