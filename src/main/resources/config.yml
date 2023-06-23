@@ -18,6 +18,8 @@ blocked-commands:
   blocked:
     - blockedcommandhere
 messages:
+  cannot-leave-title: '&4&lIn combat!'
+  cannot-leave-subtitle: '&cYou cannot leave this area'
   combat-tagged: '&cYou have been combat tagged. If you log out right now, you will not be safe. Your combat tag expires in &e%1'
   un-combat-tagged: '&aYou have been un-combat tagged! You may safely log out now.'
   logged-out-combat: '&6%1 &ahas logged out while in combat! You can still kill them for &e%2&a seconds.'
