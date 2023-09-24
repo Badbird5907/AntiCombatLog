@@ -9,7 +9,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import su.nightexpress.excellentenchants.enchantment.impl.ExcellentEnchant;
+import su.nightexpress.excellentenchants.enchantment.util.EnchantUtils;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NPCListener implements Listener {
@@ -25,6 +28,22 @@ public class NPCListener implements Listener {
                     if (Bukkit.getPluginManager().isPluginEnabled("AdvancedEnchantments")) {
                         event.getDrops().addAll(trait.getItems().stream()
                                 .filter(item -> !AEAPI.hasWhitescroll(item)).collect(Collectors.toList()));
+                    } else if (Bukkit.getPluginManager().isPluginEnabled("ExcellentEnchants")) {
+                        event.getDrops().addAll(trait.getItems().stream()
+                                .filter(item -> {
+                                    Map<ExcellentEnchant, Integer> excellents = EnchantUtils.getExcellents(item);
+                                    return excellents.isEmpty() || excellents.keySet().stream().noneMatch(enchant -> {
+                                        // return true to add to list
+                                        if (enchant == null) return false;
+                                        if (enchant.getId().equalsIgnoreCase("soulbound")) {
+                                            if (EnchantUtils.isOutOfCharges(item, enchant)) return false;
+                                            if (EnchantUtils.getLevel(item, enchant) < 0) return false;
+                                            EnchantUtils.consumeCharges(item, enchant, EnchantUtils.getLevel(item, enchant));
+                                            return true;
+                                        }
+                                        return false;
+                                    });
+                                }).collect(Collectors.toList()));
                     } else {
                         event.getDrops().addAll(trait.getItems());
                     }
