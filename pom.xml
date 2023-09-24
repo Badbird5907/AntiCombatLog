@@ -131,5 +131,18 @@
             <version>3.5.1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <artifactId>ExcellentEnchants</artifactId>
+            <groupId>su.nightexpress.excellentenchants</groupId>
+            <version>3.5.7</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ExcellentEnchants-3.5.7.jar</systemPath>
+        </dependency>
+        <dependency> <!-- Required for ExcellentEnchants -->
+            <artifactId>NexEngine</artifactId>
+            <groupId>su.nexmedia</groupId>
+            <version>2.2.11</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
