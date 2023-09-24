@@ -1,0 +1,77 @@
+Prefix:
+  ingame: '&7[&cAntiCombatLog&7]'
+  console: '[AntiCombatLogCC]'
+Tagged:
+  command: ban %player% &cCombatLog!
+  Effects: true
+  BroadCast: true
+  Youweretagged: '&cYou are tagged! You should not leave the server in the next &4%time%&cs!'
+  Nolongertagged: '&aYou are not longer tagged! You can leave the server now'
+  BroadcastmessageWithItemDrop: '&4%player% &chas left the server while fighting!
+    His items are at: X: &4%x%&c, Z: &4%z%'
+  BroadcastmessageWithoutItemDrop: '&4%player% &chas left the server while fighting!'
+  blockAllcommands:
+    enable: false
+    denyMSG: '&cYou cant use that command while you are tagged'
+    enabledcommands:
+      - example
+  Sign:
+    Line1: '&4&l[ACL]'
+    Line2: '&3%player%'
+    Line3: R.I.P
+    Line4: '&oRight Click'
+    keepduration: 30
+  Zeit: 20
+  Type: SIGN
+  Block:
+    Type: STONE
+    keepduration: 30
+Multiworld:
+  enable: false
+  enabled_worlds:
+    - world
+Configversion: Build_2
+combat-log-seconds: 15
+npc-combat-log: false # set to true to spawn a npc - false to insta kill
+combat-logged-message-radius: -1 # set to -1 to broadcast to everyone
+combat-tag-seconds: 15
+npc-hit-reset-seconds: 35 # set to -1 to disable
+only-show-player-name: false # set to true to only show player name, instead of the 'DISCONNECTED: name'
+enable-hologram: false # enable the countdown timer hologram
+# Weather to use a scoreboard, actionbar, or both
+# Values: BOARD ACTIONBAR BOTH NONE
+notify-type: ACTIONBAR
+login-after-combat-log-add-timer-seconds: 5 # seconds to add to the combat timer if you log out and back in while in combat
+set-death-message: true # only change this if you have a death message plugin and it isn't working
+tag-on-enderpearl: false # this option will combat tag players if they throw a pearl
+elytra-disable: false # Disable elytra gliding & boost on combat tag
+kill-after-timer-expires: true # Kill players after the combat tag timer expires, if they don't rejoin
+blocked-commands:
+  enabled: true
+  blocked:
+    - spawn
+    - hub
+    - lobby
+messages:
+  cannot-leave-title: '&4&lSei in combattimento!'
+  cannot-leave-subtitle: '&cNon puoi lasciare questa zona'
+  combat-tagged: '&7(&c🗡&7) &fSei in combattimento, non uscire dal server.'
+  un-combat-tagged: '&7(&a🗡&7) &fNon sei più in combattimento, puoi uscire dal server.'
+  logged-out-combat: '&7(&c🗡&7) &c%1 &fè uscito mentre combattevate! Puoi ancora
+    ucciderlo entro &c%2&f secondi.'
+  action-bar-message: '&7(&c🗡&7) &fSei in combattimento per &c%1&f secondi &7(&c🗡&7)
+    &f'
+  log-in-after-kill: '&7(&c🗡&7) &fSei stati ucciso mentre eri in combattimento.'
+  combat-expired: '&7(&a🗡&7) &fNon sei più in combattimento.'
+  kill-message: '&7(&c🗡&7) &c%1 &fè stato ucciso'
+  blocked-command: '&7(&c🗡&7) &fNon puoi usare questo comando in combattimento.'
+exempt-worlds:
+  - world-name-here
+disable:
+  fly: true
+hooks:
+  duels:
+    enabled: false
+    dont-combat-tag: true
+update-check: true
+zeroinv: false

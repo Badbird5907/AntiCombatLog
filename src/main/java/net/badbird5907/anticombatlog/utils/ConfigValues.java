@@ -27,6 +27,10 @@ public class ConfigValues {
     @Getter
     private static String combatTaggedMessage = null;
     @Getter
+    private static String cannotLeaveTitleMessage = null;
+    @Getter
+    private static String cannotLeaveSubtitleMessage = null;
+    @Getter
     private static String logInAfterKillMessage = null;
     @Getter
     private static String unCombatTaggedMessage = null;
@@ -76,6 +80,8 @@ public class ConfigValues {
     public static void load() {
         combatLogSeconds = getConfig().getInt("combat-log-seconds");
         npcCombatLog = getConfig().getBoolean("npc-combat-log");
+        cannotLeaveTitleMessage = format(getConfig().getString("messages.cannot-leave-title","&4&lIn combat!"));
+        cannotLeaveSubtitleMessage = format(getConfig().getString("messages.cannot-leave-subtitle","&cYou cannot leave this are"));
         combatTaggedMessage = format(getConfig().getString("messages.combat-tagged","&cYou have been combat tagged. If you log out right now, you will not be safe. Your combat tag expires in &e%1"));
         unCombatTaggedMessage = format(getConfig().getString("messages.un-combat-tagged"));
         combatLoggedMessageRadius = getConfig().getInt("combat-logged-message-radius");

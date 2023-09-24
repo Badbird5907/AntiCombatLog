@@ -18,6 +18,8 @@ blocked-commands:
   blocked:
     - blockedcommandhere
 messages:
+  cannot-leave-title: '&4&lIn combat!'
+  cannot-leave-subtitle: '&cYou cannot leave this area'
   combat-tagged: '&c¡Te acaban de atacar! Si te desconectas, no estarás a salvo. Estarás fuera de combate en &e%1'
   un-combat-tagged: '&a¡Ya no estás en combate! Te puedes desconectar sin problema.'
   logged-out-combat: '&6%1 &ase ha desconectado en combate. Puedes matarlo durante los próximos &e%2&a segundos.'

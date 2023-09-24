@@ -1,6 +1,11 @@
 package net.badbird5907.anticombatlog;
 
 import com.google.gson.Gson;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
+import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -9,10 +14,7 @@ import net.badbird5907.anticombatlog.api.events.CombatTagEvent;
 import net.badbird5907.anticombatlog.commands.AntiCombatLogCommand;
 import net.badbird5907.anticombatlog.commands.ResetTagCommand;
 import net.badbird5907.anticombatlog.hooks.HookManager;
-import net.badbird5907.anticombatlog.listener.BlockedCommandsListener;
-import net.badbird5907.anticombatlog.listener.CombatListener;
-import net.badbird5907.anticombatlog.listener.ConnectionListener;
-import net.badbird5907.anticombatlog.listener.NPCListener;
+import net.badbird5907.anticombatlog.listener.*;
 import net.badbird5907.anticombatlog.manager.NPCManager;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
 import net.badbird5907.anticombatlog.utils.StringUtils;
@@ -51,6 +53,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     private static final List<UUID> killed = new ArrayList<>();
     @Getter
     private static String newVersion = "";
+    public static StateFlag ALLOW_EXIT_IN_COMBAT;
 
     public static void loadData() {
         String json = StringUtils.readFile(file);
@@ -208,6 +211,24 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
 
     @Override
     public void onLoad() {
+
+        ALLOW_EXIT_IN_COMBAT = registerFlag("allow-exit-in-combat", false);
+    }
+    public static StateFlag registerFlag(String name, boolean def) {
+        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+        try {
+            StateFlag flag = new StateFlag(name, def);
+            registry.register(flag);
+            return flag;
+        } catch (FlagConflictException e) {
+            Flag<?> existing = registry.get("allow-exit-in-combat");
+            if (existing instanceof StateFlag) {
+                return (StateFlag) existing;
+            } else {
+                Bukkit.getLogger().severe("Could not register WorldGuard flag 'allow-exit-in-combat', some other plugin has already registered it!");
+            }
+        }
+        return null;
     }
 
     @SneakyThrows
@@ -232,7 +253,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             ps.close();
         }
         loadData();
-        Listener[] listeners = new Listener[]{new CombatListener(), new ConnectionListener(), new NPCListener(), new BlockedCommandsListener()};
+        Listener[] listeners = new Listener[]{new CombatListener(), new ConnectionListener(), new NPCListener(), new BlockedCommandsListener(), new WorldGuardListener()};
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener, this);
         }
