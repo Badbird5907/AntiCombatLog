@@ -142,7 +142,8 @@
             <artifactId>NexEngine</artifactId>
             <groupId>su.nexmedia</groupId>
             <version>2.2.11</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/NexEngine.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
