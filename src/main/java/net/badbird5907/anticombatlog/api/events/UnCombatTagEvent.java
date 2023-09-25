@@ -1,25 +1,14 @@
 package net.badbird5907.anticombatlog.api.events;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import net.badbird5907.blib.event.SimpleEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-@RequiredArgsConstructor
-@Getter
-@Setter
-public class UnCombatTagEvent extends Event {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class UnCombatTagEvent extends SimpleEvent {
     private final Player player; //TODO keep track of last combat tagged
-
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return new HandlerList();
-    }
-
-    public static HandlerList getHandlerList() {
-        return new HandlerList();
-    }
 }

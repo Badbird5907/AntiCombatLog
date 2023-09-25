@@ -20,6 +20,7 @@ import net.badbird5907.anticombatlog.utils.UpdateRunnable;
 import net.badbird5907.blib.bLib;
 import net.badbird5907.blib.bstats.Metrics;
 import net.badbird5907.blib.spigotmc.UpdateChecker;
+import net.badbird5907.blib.util.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -95,6 +96,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         if (victim.getGameMode() == GameMode.CREATIVE || attacker.getGameMode() == GameMode.CREATIVE)
             return;
         CombatTagEvent event = new CombatTagEvent(victim, attacker);
+        Logger.debug("Tagging " + victim.getName() + " and " + attacker.getName());
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled())
             return;

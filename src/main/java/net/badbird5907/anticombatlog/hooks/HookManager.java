@@ -2,6 +2,7 @@ package net.badbird5907.anticombatlog.hooks;
 
 import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.hooks.impl.DuelsHook;
+import net.badbird5907.blib.util.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
@@ -35,6 +36,7 @@ public class HookManager {
     }
 
     public static void load(IHook hook) {
+        Logger.info(" - Loading hook: " + hook.getName());
         hook.enable(AntiCombatLog.getInstance());
         hooks.add(hook);
         if (hook instanceof Listener) {
@@ -51,6 +53,7 @@ public class HookManager {
     }
 
     public static void enable(IHook hook) {
+        Logger.info(" - Enabling hook: " + hook.getName());
         hook.enable(AntiCombatLog.getInstance());
         hooks.add(hook);
     }

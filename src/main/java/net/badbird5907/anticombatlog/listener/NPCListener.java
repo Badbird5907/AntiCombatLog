@@ -2,6 +2,10 @@ package net.badbird5907.anticombatlog.listener;
 
 import net.advancedplugins.ae.api.AEAPI;
 import net.badbird5907.anticombatlog.AntiCombatLog;
+import net.badbird5907.anticombatlog.api.events.CombatLogKillEvent;
+import net.badbird5907.anticombatlog.api.events.CombatLogNPCSpawnEvent;
+import net.badbird5907.anticombatlog.api.events.CombatTagEvent;
+import net.badbird5907.anticombatlog.api.events.UnCombatTagEvent;
 import net.badbird5907.anticombatlog.object.CombatNPCTrait;
 import net.badbird5907.blib.util.Logger;
 import net.citizensnpcs.api.event.NPCDeathEvent;
@@ -73,7 +77,6 @@ public class NPCListener implements Listener {
                     }
                     // Logger.debug("  - Consuming charges...");
                     // EnchantUtils.consumeCharges(item, enchant, EnchantUtils.getLevel(item, enchant)); // disabled because excellent enchants does this for us when the player is kiled
-                    Logger.debug("  - Returning true!");
                     return true;
                 }
                 return false;

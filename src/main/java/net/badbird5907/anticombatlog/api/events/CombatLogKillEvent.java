@@ -3,6 +3,7 @@ package net.badbird5907.anticombatlog.api.events;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.badbird5907.blib.event.SimpleEvent;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 @Setter
-public class CombatLogKillEvent extends Event implements Cancellable {
+public class CombatLogKillEvent extends SimpleEvent implements Cancellable {
     private final UUID player;
     private final PlayerDeathEvent actualDeathEvent;
     private boolean cancelled = false;
@@ -27,15 +28,6 @@ public class CombatLogKillEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
-    }
-
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return new HandlerList();
-    }
-
-    public static HandlerList getHandlerList() {
-        return new HandlerList();
     }
 
 }
