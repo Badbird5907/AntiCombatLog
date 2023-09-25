@@ -96,7 +96,6 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         if (victim.getGameMode() == GameMode.CREATIVE || attacker.getGameMode() == GameMode.CREATIVE)
             return;
         CombatTagEvent event = new CombatTagEvent(victim, attacker);
-        Logger.debug("Tagging " + victim.getName() + " and " + attacker.getName());
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled())
             return;
