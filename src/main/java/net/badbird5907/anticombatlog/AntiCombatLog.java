@@ -193,9 +193,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             player.setHealth(health);
             NPCManager.despawn(player.getUniqueId());
         }
-        System.out.println(freezeTimer);
         if (freezeTimer.containsKey(player.getUniqueId())) {
-            System.out.println("Removing " + player.getName() + " from freeze timer");
             int currentTime = freezeTimer.remove(player.getUniqueId());
             getInCombatTag().put(player.getUniqueId(), currentTime + getInstance().getConfig().getInt("login-after-combat-log-add-timer-seconds", 5));
         }
