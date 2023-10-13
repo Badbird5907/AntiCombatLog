@@ -20,7 +20,6 @@ import net.badbird5907.anticombatlog.utils.UpdateRunnable;
 import net.badbird5907.blib.bLib;
 import net.badbird5907.blib.bstats.Metrics;
 import net.badbird5907.blib.spigotmc.UpdateChecker;
-import net.badbird5907.blib.util.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -43,7 +42,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
     private static Map<UUID, String> toKillOnLogin = new HashMap<>();
     @Getter
     @Setter
-    private static Set<UUID> freezeTimer = new HashSet<>();
+    private static Map<UUID, Integer> freezeTimer = new HashMap<>();
     @Getter
     private static AntiCombatLog instance;
     private static UpdateRunnable updateRunnable;
@@ -162,7 +161,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
         int seconds = event.isIndefinite() ? -1 : event.getTime();
         NPCManager.spawn(player, seconds);
         sendCombatLoggedMessage(player);
-        freezeTimer.add(player.getUniqueId());
+        freezeTimer.put(player.getUniqueId(), getInCombatTag().getOrDefault(player.getUniqueId(), 0));
     }
 
     public static void join(Player player) {
@@ -194,10 +193,11 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             player.setHealth(health);
             NPCManager.despawn(player.getUniqueId());
         }
-        if (freezeTimer.contains(player.getUniqueId())) {
-            freezeTimer.remove(player.getUniqueId());
-            int a = getInCombatTag().getOrDefault(player.getUniqueId(), 0);
-            getInCombatTag().put(player.getUniqueId(), a + getInstance().getConfig().getInt("login-after-combat-log-add-timer-seconds", 5));
+        System.out.println(freezeTimer);
+        if (freezeTimer.containsKey(player.getUniqueId())) {
+            System.out.println("Removing " + player.getName() + " from freeze timer");
+            int currentTime = freezeTimer.remove(player.getUniqueId());
+            getInCombatTag().put(player.getUniqueId(), currentTime + getInstance().getConfig().getInt("login-after-combat-log-add-timer-seconds", 5));
         }
     }
 

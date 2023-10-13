@@ -18,12 +18,14 @@ public class UpdateRunnable extends BukkitRunnable {
         NPCManager.update();
         Map<UUID, Integer> stillInCombat = new ConcurrentHashMap<>();
         AntiCombatLog.getInCombatTag().forEach(((uuid, integer) -> {
-            if (AntiCombatLog.getFreezeTimer().contains(uuid)) {
-                AntiCombatLog.getFreezeTimer().remove(uuid);
-                stillInCombat.put(uuid, integer);
-                return;
-            }
             if (Bukkit.getPlayer(uuid) != null) {
+                /*
+                if (AntiCombatLog.getFreezeTimer().contains(uuid)) {
+                    AntiCombatLog.getFreezeTimer().remove(uuid);
+                    stillInCombat.put(uuid, integer);
+                    return;
+                }
+                 */
                 int a = integer - 1;
                 if (a > 0)
                     stillInCombat.put(uuid, a);
