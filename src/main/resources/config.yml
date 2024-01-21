@@ -4,6 +4,7 @@ combat-logged-message-radius: -1 # set to -1 to broadcast to everyone
 combat-tag-seconds: 15
 npc-hit-reset-seconds: 35 # set to -1 to disable
 npc-name: '&c&bDISCONNECTED: &r&c%1' # %1 is replaced with the player name
+seconds-left-hologram: '&e&l%1 seconds left' # %1 is replaced with the seconds left
 enable-hologram: true # enable the countdown timer hologram
 # Weather to use a scoreboard, actionbar, or both
 # Values: BOARD ACTIONBAR BOTH NONE

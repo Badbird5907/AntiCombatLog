@@ -39,7 +39,7 @@ public class NPCManager {
                 if (trait != null && !trait.isIndefinite()) {
                     triplet.setValue0(triplet.getValue0() - 1);
                     if (!triplet.getValue1().isSpawned() || triplet.getValue0() <= 0) { // if it is not spawned or the time is up
-                        NPC npc  = triplet.getValue1();
+                        NPC npc = triplet.getValue1();
                         if (AntiCombatLog.getInstance().getConfig().getBoolean("kill-after-timer-expires", false) && npc.getEntity() != null && npc.getEntity().isValid()) { // still alive
                             LivingEntity entity = (LivingEntity) npc.getEntity();
                             entity.setHealth(0);
@@ -54,9 +54,10 @@ public class NPCManager {
                     }
                     HologramTrait holoTrait = triplet.getValue1().getTraitNullable(HologramTrait.class);
                     if (holoTrait != null) {
-                        if (holoTrait.getLines().size() == 0)
-                            holoTrait.addLine(CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
-                        else holoTrait.setLine(0, CC.YELLOW + CC.B + triplet.getValue0() + " seconds left");
+                        String line = CC.translate(AntiCombatLog.getInstance().getConfig().getString("&e&l%1 seconds left", triplet.getValue0() + ""));
+                        if (holoTrait.getLines().isEmpty())
+                            holoTrait.addLine(line);
+                        else holoTrait.setLine(0, line);
                     }
                 }
             }
