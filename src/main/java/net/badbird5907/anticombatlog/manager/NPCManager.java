@@ -67,8 +67,7 @@ public class NPCManager {
 
     public static void spawn(Player player, int i) {
         if (!isEnabled()) return;
-        NPC npc;
-        npc = getNPCRegistry().createNPC(EntityType.PLAYER, StringUtils.replacePlaceholders(CC.translate(AntiCombatLog.getInstance().getConfig().getString("npc-name", "&c&bDISCONNECTED: &r&c%1")), player.getDisplayName()));
+        NPC npc = getNPCRegistry().createNPC(EntityType.PLAYER, StringUtils.replacePlaceholders(CC.translate(AntiCombatLog.getInstance().getConfig().getString("npc-name", "&c&bDISCONNECTED: &r&c%1")), player.getDisplayName()));
 
         npc.addTrait(new CombatNPCTrait(player.getName(), player.getExp(), player.getUniqueId(), Arrays.asList(player.getInventory().getContents()), player.getHealth()));
         if (i == -1)
