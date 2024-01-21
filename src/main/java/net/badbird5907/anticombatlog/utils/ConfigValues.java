@@ -46,7 +46,7 @@ public class ConfigValues {
     private static String blockedCommandMessage = null;
 
     @Getter
-    private static boolean setDeathMessage = true, enableHologram = true,
+    private static boolean setDeathMessage = true, enableHologram = true, blockedCommandsRegex = true,
             disableFly = false, tagOnPearl = false, enableBlockedCommands = true;
 
     @Getter
@@ -77,6 +77,7 @@ public class ConfigValues {
         combatExpiredMessage = format(getConfig().getString("messages.combat-expired"));
         blockedCommands = getConfig().getStringList("blocked-commands.blocked");
         enableBlockedCommands = getConfig().getBoolean("blocked-commands.enabled");
+        blockedCommandsRegex = getConfig().getBoolean("blocked-commands.regex");
         blockedCommandMessage = format(getConfig().getString("messages.blocked-command", "&cYou cannot use this command while in combat."));
         enableHologram = getConfig().getBoolean("enable-hologram", true);
         setDeathMessage = getConfig().getBoolean("set-death-message", true);

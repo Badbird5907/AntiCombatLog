@@ -16,8 +16,9 @@ elytra-disable: false # Disable elytra gliding & boost on combat tag
 kill-after-timer-expires: false # Kill players after the combat tag timer expires, if they don't rejoin
 blocked-commands:
   enabled: true
+  regex: true
   blocked:
-    - blockedcommandhere
+    - 'blockedcommandhere' # use .* to block all commands (regex must be enabled)
 messages:
   combat-tagged: '&cYou have been combat tagged. If you log out right now, you will not be safe. Your combat tag expires in &e%1'
   un-combat-tagged: '&aYou have been un-combat tagged! You may safely log out now.'
