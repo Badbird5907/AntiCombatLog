@@ -15,6 +15,7 @@ public class BlockedCommandsListener implements Listener {
 
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent event) {
+        if (!AntiCombatLog.isCombatTagged(event.getPlayer())) return;
         if (ConfigValues.isEnableBlockedCommands()) {
             String command = event.getMessage().split(" ")[0].replace("/", "");
             if (ConfigValues.isBlockedCommandsRegex()) {
@@ -29,7 +30,7 @@ public class BlockedCommandsListener implements Listener {
                     }
                 }
             }
-            if (ConfigValues.getBlockedCommands().contains(command) && AntiCombatLog.isCombatTagged(event.getPlayer())) {
+            if (ConfigValues.getBlockedCommands().contains(command)) {
                 event.setCancelled(true);
                 AntiCombatLog.getInstance().getLogger().info("Blocked command " + command + " from " + event.getPlayer().getName() + " (Matched command: " + command + ")");
                 if (ConfigValues.getBlockedCommandMessage() != null)
