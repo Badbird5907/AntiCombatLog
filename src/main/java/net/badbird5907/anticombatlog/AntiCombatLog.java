@@ -152,6 +152,10 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             player.setHealth(0.0d);
             return;
         }
+        if (!NPCManager.isEnabled()) {
+            getInstance().getLogger().warning("Citizens is not enabled! Disabling NPC combat logging.");
+            return;
+        }
         if (ConfigValues.getExemptWorlds().contains(player.getWorld().getName()))
             return;
         CombatLogNPCSpawnEvent event = new CombatLogNPCSpawnEvent(player, ConfigValues.getCombatLogSeconds(), false);
@@ -188,7 +192,7 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             saveData();
             return;
         }
-        if (NPCManager.isSpawned(player.getUniqueId())) {
+        if (NPCManager.isEnabled() && NPCManager.isSpawned(player.getUniqueId())) {
             double health = NPCManager.getHealth(player.getUniqueId());
             player.setHealth(health);
             NPCManager.despawn(player.getUniqueId());
@@ -269,9 +273,11 @@ public final class AntiCombatLog extends JavaPlugin { //TODO config editor in ga
             e.printStackTrace();
         }
         getLogger().info("Despawning current combat logged NPCs.");
-        NPCManager.getNpcs().forEach((uuid, integerNPCStringTriplet) -> {
-            NPCManager.despawn(uuid);
-        });
+        if (NPCManager.isEnabled()) {
+            NPCManager.getNpcs().forEach((uuid, integerNPCStringTriplet) -> {
+                NPCManager.despawn(uuid);
+            });
+        }
         if (updateRunnable != null)
             updateRunnable.cancel();
     }

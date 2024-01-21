@@ -33,6 +33,7 @@ public class NPCManager {
     private static final Map<UUID, Triplet<Integer, NPC, String>> npcs = new ConcurrentHashMap<>();
 
     public static void update() {
+        if (!isEnabled()) return;
         npcs.forEach((uuid, triplet) -> {
             if (triplet.getValue1().getTraitNullable(CombatNPCTrait.class) != null) {
                 CombatNPCTrait trait = triplet.getValue1().getTraitNullable(CombatNPCTrait.class);
@@ -65,6 +66,7 @@ public class NPCManager {
     }
 
     public static void spawn(Player player, int i) {
+        if (!isEnabled()) return;
         NPC npc;
         npc = getNPCRegistry().createNPC(EntityType.PLAYER, StringUtils.replacePlaceholders(CC.translate(AntiCombatLog.getInstance().getConfig().getString("npc-name", "&c&bDISCONNECTED: &r&c%1")), player));
 
@@ -97,6 +99,7 @@ public class NPCManager {
     }
 
     public static void despawn(UUID player) {
+        if (!isEnabled()) return;
         if (isSpawned(player)) {
             NPC npc = npcs.get(player).getValue1();
             if (npc.isSpawned()) {
@@ -135,5 +138,9 @@ public class NPCManager {
         if (CitizensAPI.getNamedNPCRegistry("AntiCombatLog") == null)
             CitizensAPI.createNamedNPCRegistry("AntiCombatLog", new MemoryNPCDataStore());
         return CitizensAPI.getNamedNPCRegistry("AntiCombatLog");
+    }
+
+    public static boolean isEnabled() {
+        return Bukkit.getPluginManager().isPluginEnabled("Citizens");
     }
 }

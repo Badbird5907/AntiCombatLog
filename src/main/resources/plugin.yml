@@ -2,12 +2,12 @@ name: AntiCombatLog
 version: ${project.version}
 main: net.badbird5907.anticombatlog.AntiCombatLog
 api-version: 1.13
-depend: [ Citizens ]
 softdepend:
   - floodgate
   - AdvancedEnchantments
   - ExcellentEnchants
   - Duels
+  - Citizens
 commands:
   anticombatlog:
     description: main command
