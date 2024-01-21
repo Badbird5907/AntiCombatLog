@@ -55,7 +55,7 @@ public class NPCManager {
                     }
                     HologramTrait holoTrait = triplet.getValue1().getTraitNullable(HologramTrait.class);
                     if (holoTrait != null) {
-                        String line = CC.translate(AntiCombatLog.getInstance().getConfig().getString("&e&l%1 seconds left", triplet.getValue0() + ""));
+                        String line = CC.translate(StringUtils.replacePlaceholders(AntiCombatLog.getInstance().getConfig().getString("seconds-left-hologram", "&e&l%1 seconds left"), triplet.getValue0()));
                         if (holoTrait.getLines().isEmpty())
                             holoTrait.addLine(line);
                         else holoTrait.setLine(0, line);
