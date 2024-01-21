@@ -3,7 +3,7 @@ npc-combat-log: true # set to true to spawn a npc - false to insta kill
 combat-logged-message-radius: -1 # set to -1 to broadcast to everyone
 combat-tag-seconds: 15
 npc-hit-reset-seconds: 35 # set to -1 to disable
-only-show-player-name: false # set to true to only show player name, instead of the 'DISCONNECTED: name'
+npc-name: '&c&bDISCONNECTED: &r&c%1' # %1 is replaced with the player name
 enable-hologram: true # enable the countdown timer hologram
 # Weather to use a scoreboard, actionbar, or both
 # Values: BOARD ACTIONBAR BOTH NONE

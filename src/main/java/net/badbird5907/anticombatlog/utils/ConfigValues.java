@@ -7,7 +7,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import static net.badbird5907.anticombatlog.utils.StringUtils.format;
@@ -44,22 +43,11 @@ public class ConfigValues {
     @Getter
     private static List<String> blockedCommands = null;
     @Getter
-    private static boolean enableBlockedCommands = true;
-    @Getter
     private static String blockedCommandMessage = null;
 
     @Getter
-    private static boolean showPlayerNameOnly = false,
-    setDeathMessage = true;
-
-    @Getter
-    private static boolean enableHologram = true;
-
-    @Getter
-    private static boolean disableFly = false;
-
-    @Getter
-    private static boolean tagOnPearl = false;
+    private static boolean setDeathMessage = true, enableHologram = true,
+            disableFly = false, tagOnPearl = false, enableBlockedCommands = true;
 
     @Getter
     private static List<String> exemptWorlds;
@@ -76,7 +64,7 @@ public class ConfigValues {
     public static void load() {
         combatLogSeconds = getConfig().getInt("combat-log-seconds");
         npcCombatLog = getConfig().getBoolean("npc-combat-log");
-        combatTaggedMessage = format(getConfig().getString("messages.combat-tagged","&cYou have been combat tagged. If you log out right now, you will not be safe. Your combat tag expires in &e%1"));
+        combatTaggedMessage = format(getConfig().getString("messages.combat-tagged", "&cYou have been combat tagged. If you log out right now, you will not be safe. Your combat tag expires in &e%1"));
         unCombatTaggedMessage = format(getConfig().getString("messages.un-combat-tagged"));
         combatLoggedMessageRadius = getConfig().getInt("combat-logged-message-radius");
         combatLoggedMessage = format(getConfig().getString("messages.logged-out-combat"));
@@ -85,17 +73,16 @@ public class ConfigValues {
         actionBarMessage = format(getConfig().getString("messages.action-bar-message"));
         npcHitResetSecond = getConfig().getInt("npc-hit-reset-seconds");
         killMessage = format(getConfig().getString("messages.kill-message"));
-        logInAfterKillMessage = format(getConfig().getString("messages.log-in-after-kill","&cYou logged out while in combat and was killed"));
+        logInAfterKillMessage = format(getConfig().getString("messages.log-in-after-kill", "&cYou logged out while in combat and was killed"));
         combatExpiredMessage = format(getConfig().getString("messages.combat-expired"));
         blockedCommands = getConfig().getStringList("blocked-commands.blocked");
         enableBlockedCommands = getConfig().getBoolean("blocked-commands.enabled");
         blockedCommandMessage = format(getConfig().getString("messages.blocked-command", "&cYou cannot use this command while in combat."));
-        showPlayerNameOnly = getConfig().getBoolean("only-show-player-name",false);
-        enableHologram = getConfig().getBoolean("enable-hologram",true);
-        setDeathMessage = getConfig().getBoolean("set-death-message",true);
+        enableHologram = getConfig().getBoolean("enable-hologram", true);
+        setDeathMessage = getConfig().getBoolean("set-death-message", true);
         exemptWorlds = getConfig().getStringList("exempt-worlds");
-        disableFly = getConfig().getBoolean("disable.fly",false);
-        tagOnPearl = getConfig().getBoolean("tag-on-enderpearl",true);
+        disableFly = getConfig().getBoolean("disable.fly", false);
+        tagOnPearl = getConfig().getBoolean("tag-on-enderpearl", true);
     }
 
     public static void reload() {

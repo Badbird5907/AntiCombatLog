@@ -5,6 +5,7 @@ import net.badbird5907.anticombatlog.AntiCombatLog;
 import net.badbird5907.anticombatlog.object.CombatNPCTrait;
 import net.badbird5907.anticombatlog.object.Triplet;
 import net.badbird5907.anticombatlog.utils.ConfigValues;
+import net.badbird5907.anticombatlog.utils.StringUtils;
 import net.badbird5907.blib.util.CC;
 import net.badbird5907.blib.util.Logger;
 import net.citizensnpcs.api.CitizensAPI;
@@ -64,11 +65,7 @@ public class NPCManager {
 
     public static void spawn(Player player, int i) {
         NPC npc;
-        if (ConfigValues.isShowPlayerNameOnly()) {
-            npc = getNPCRegistry().createNPC(EntityType.PLAYER, player.getName());
-        }else {
-            npc = getNPCRegistry().createNPC(EntityType.PLAYER, CC.RED + CC.B + "DISCONNECTED: " + CC.R + CC.RED + player.getName());
-        }
+        npc = getNPCRegistry().createNPC(EntityType.PLAYER, StringUtils.replacePlaceholders(CC.translate(AntiCombatLog.getInstance().getConfig().getString("npc-name", "&c&bDISCONNECTED: &r&c%1")), player));
 
         npc.addTrait(new CombatNPCTrait(player.getName(), player.getExp(), player.getUniqueId(), Arrays.asList(player.getInventory().getContents()), player.getHealth()));
         if (i == -1)
