@@ -64,7 +64,7 @@ public class CombatListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(PlayerDeathEvent event) {
-        if (event.getEntity().hasMetadata("NPC") && CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) {
+        if (NPCManager.isEnabled() && event.getEntity().hasMetadata("NPC") && CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) {
             NPC npc = CitizensAPI.getNPCRegistry().getNPC(event.getEntity());
             CombatLogKillEvent event1 = new CombatLogKillEvent(CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).getTraitNullable(CombatNPCTrait.class).getUuid(), event);
             Bukkit.getPluginManager().callEvent(event1);
