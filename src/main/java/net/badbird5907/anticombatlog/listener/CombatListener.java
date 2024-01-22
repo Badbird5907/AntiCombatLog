@@ -27,7 +27,7 @@ public class CombatListener implements Listener {
             return;
         if (ConfigValues.getExemptWorlds().contains(event.getEntity().getWorld().getName()))
             return;
-        if (NPCManager.isEnabled() && event.getEntity().hasMetadata("NPC") && NPCManager.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) { //is offline npc
+        if (AntiCombatLog.isCitizensEnabled() && event.getEntity().hasMetadata("NPC") && NPCManager.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) { //is offline npc
             if (!(event.getEntity() instanceof Player))
                 return;
             NPCManager.damaged(event.getEntity());
@@ -64,7 +64,7 @@ public class CombatListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(PlayerDeathEvent event) {
-        if (NPCManager.isEnabled() && event.getEntity().hasMetadata("NPC") && CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) {
+        if (AntiCombatLog.isCitizensEnabled() && event.getEntity().hasMetadata("NPC") && CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).hasTrait(CombatNPCTrait.class)) {
             NPC npc = CitizensAPI.getNPCRegistry().getNPC(event.getEntity());
             CombatLogKillEvent event1 = new CombatLogKillEvent(CitizensAPI.getNPCRegistry().getNPC(event.getEntity()).getTraitNullable(CombatNPCTrait.class).getUuid(), event);
             Bukkit.getPluginManager().callEvent(event1);

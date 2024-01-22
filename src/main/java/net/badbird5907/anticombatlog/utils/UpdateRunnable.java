@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UpdateRunnable extends BukkitRunnable {
     @Override
     public void run() {
-        if (NPCManager.isEnabled()) {
+        if (AntiCombatLog.isCitizensEnabled()) {
             NPCManager.update();
         }
         Map<UUID, Integer> stillInCombat = new ConcurrentHashMap<>();
